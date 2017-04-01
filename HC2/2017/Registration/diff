@@ -1,0 +1,36 @@
+Lausanne -> Bern : 40
+Lausanne -> Bern
+Lausanne
+Bern -> Z?rich : 100
+Bern -> Z?rich
+Bern
+Lausanne -> St-Gallen : 80
+Lausanne -> St-Gallen
+Lausanne
+Bern -> St-Gallen : 60
+Bern -> St-Gallen
+Bern
+St-Gallen -> Basel : 80
+St-Gallen -> Basel
+St-Gallen
+Geneva -> Basel : 40
+Geneva -> Basel
+Geneva
+St-Gallen -> Lausanne : 70
+St-Gallen -> Lausanne
+St-Gallen
+Bern -> Basel : 80
+Bern -> Basel
+Bern
+Lugano -> Paris: 60
+Lugano -> Paris: 60
+Lugano
+Geneva -> Lugano : 20
+Geneva -> Lugano
+Geneva
+St-Gallen -> Geneva : 60
+St-Gallen -> Geneva
+St-Gallen
+Lugano -> Rome : 30
+Lugano -> Rome
+Lugano
