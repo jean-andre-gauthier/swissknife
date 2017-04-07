@@ -95,15 +95,9 @@ public class TemplateComputationalGeometry {
     return angle(minus(a, origin), minus(b, origin));
   }
 
-  // static PointLong rotate(PointLong a, double angle) {
-  //   return new PointLong(
-  //       Math.cos(angle) * a.x - Math.sin(angle) * a.y,
-  //       Math.sin(angle) * a.x + Math.cos(angle) * a.y);
-  // }
-  //
-  // static PointLong rotate(PointLong a, double angle, PointLong origin) {
-  //   return origin + rotate(minus(a, origin), angle);
-  // }
+  /* static PointLong bisector(PointLong a, PointLong b) { */
+  /*   return plus(times(a, norm(b)), times(b, norm(a))); */
+  /* } */
 
   static long clockwise(PointLong a, PointLong b) {
     return crossProduct(b, a);
@@ -115,6 +109,10 @@ public class TemplateComputationalGeometry {
 
   static long crossProduct(PointLong a, PointLong b) {
     return a.x * b.y - a.y * b.x;
+  }
+
+  static double distance(PointLong a, PointLong b) {
+    return norm(minus(a, b));
   }
 
   static PointLong divideBy(PointLong a, long factor) {
@@ -141,8 +139,26 @@ public class TemplateComputationalGeometry {
     return new PointLong(a.x - b.x, a.y - b.y);
   }
 
+  static double norm(PointLong a) {
+    return Math.sqrt(dotProduct(a, a));
+  }
+
+  static PointLong perpendicular(PointLong a) {
+    return new PointLong(-a.y, a.x);
+  }
+
   static PointLong plus(PointLong a, PointLong b) {
     return new PointLong(a.x + b.x, a.y + b.y);
+  }
+
+  static PointLong rotate(PointLong a, double angle) {
+    return new PointLong(
+        Math.round(Math.cos(angle) * a.x - Math.sin(angle) * a.y),
+        Math.round(Math.sin(angle) * a.x + Math.cos(angle) * a.y));
+  }
+
+  static PointLong rotate(PointLong a, double angle, PointLong origin) {
+    return plus(origin, rotate(minus(a, origin), angle));
   }
 
   static boolean smallerEqualTo(PointLong a, PointLong b) {
@@ -161,7 +177,51 @@ public class TemplateComputationalGeometry {
     return new PointLong(a.x * b.x, a.y * b.y);
   }
 
-  static class PolygonLong {
+  abstract static class Line {}
+
+  static class LineLong extends Line {
+    PointLong a;
+    PointLong ab;
+
+    LineLong(PointLong a, PointLong b, boolean twoPoints) {
+      this.a = new PointLong(a);
+      this.ab = new PointLong(twoPoints ? minus(b, a) : b);
+    }
+
+    public boolean equals(Object other) {
+      if (this == other) {
+        return true;
+      } else if (other == null || getClass() != other.getClass()) {
+        return false;
+      } else {
+        LineLong otherLineLong = (LineLong) other;
+        return ((this.a == null && otherLineLong.a == null)
+                || (this.a != null && this.a.equals(otherLineLong.a)))
+            && ((this.ab == null && otherLineLong.ab == null)
+                || (this.ab != null && this.ab.equals(otherLineLong.ab)));
+      }
+    }
+
+    public int hashCode() {
+      return Objects.hash(this.a, this.ab);
+    }
+
+    public PointLong b() {
+      return plus(a, ab);
+    }
+  }
+
+  static boolean isPoint(LineLong l) {
+    return l.ab.x != 0 && l.ab.y != 0;
+  }
+
+  static boolean onLine(PointLong p, LineLong l) {
+    return false;
+  }
+
+  abstract static class Polygon {}
+
+  static class PolygonLong extends Polygon {
     ArrayList<PointLong> points;
 
     PolygonLong(int nExpectedPoints) {
@@ -173,6 +233,34 @@ public class TemplateComputationalGeometry {
       for (long[] point : points) {
         this.points.add(new PointLong(point[0], point[1]));
       }
+    }
+
+    public boolean equals(Object other) {
+      if (this == other) {
+        return true;
+      } else if (other == null || getClass() != other.getClass()) {
+        return false;
+      } else {
+        PolygonLong otherPolygonLong = (PolygonLong) other;
+        if (this.points == null && otherPolygonLong.points == null) {
+          return true;
+        } else if (this.points != null
+            && otherPolygonLong.points != null
+            && this.points.size() == otherPolygonLong.points.size()) {
+          for (int i = 0; i < this.points.size(); ++i) {
+            if (!this.points.get(i).equals(otherPolygonLong.points.get(i))) {
+              return false;
+            }
+          }
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+
+    public int hashCode() {
+      return Objects.hashCode(this.points);
     }
   }
 
