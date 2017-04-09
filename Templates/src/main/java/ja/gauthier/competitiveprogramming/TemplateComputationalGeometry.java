@@ -1,5 +1,8 @@
 package ja.gauthier.competitiveprogramming;
 
+import static ja.gauthier.competitiveprogramming.TemplateIO.*;
+import static ja.gauthier.competitiveprogramming.TemplateMisc.*;
+
 import java.io.*;
 import java.util.*;
 
@@ -98,6 +101,11 @@ public class TemplateComputationalGeometry {
       this.x *= other.x;
       this.y *= other.y;
     }
+
+    @Override
+    public String toString() {
+      return "(" + this.x + "," + this.y + ")";
+    }
   }
 
   static class PointLong extends Point implements Comparable<PointLong> {
@@ -189,6 +197,11 @@ public class TemplateComputationalGeometry {
       this.x *= other.x;
       this.y *= other.y;
     }
+
+    @Override
+    public String toString() {
+      return "(" + this.x + "," + this.y + ")";
+    }
   }
 
   static double angle(PointDouble a) {
@@ -224,11 +237,11 @@ public class TemplateComputationalGeometry {
   }
 
   static double clockwise(PointDouble a, PointDouble b) {
-    return crossProduct(b, a);
+    return crossProduct(a, b);
   }
 
   static long clockwise(PointLong a, PointLong b) {
-    return crossProduct(b, a);
+    return crossProduct(a, b);
   }
 
   static double clockwise(PointDouble a, PointDouble b, PointDouble origin) {
@@ -348,19 +361,19 @@ public class TemplateComputationalGeometry {
   }
 
   static boolean smallerEqualTo(PointDouble a, PointDouble b) {
-    return a.x <= b.x || (a.x == b.x && a.y <= b.y);
+    return a.y < b.y || (a.y == b.y && a.x <= b.x);
   }
 
   static boolean smallerEqualTo(PointLong a, PointLong b) {
-    return a.x <= b.x || (a.x == b.x && a.y <= b.y);
+    return a.y < b.y || (a.y == b.y && a.x <= b.x);
   }
 
   static boolean smallerThan(PointDouble a, PointDouble b) {
-    return a.x < b.x || (a.x == b.x && a.y < b.y);
+    return a.y < b.y || (a.y == b.y && a.x < b.x);
   }
 
   static boolean smallerThan(PointLong a, PointLong b) {
-    return a.x < b.x || (a.x == b.x && a.y < b.y);
+    return a.y < b.y || (a.y == b.y && a.x < b.x);
   }
 
   static PointDouble times(PointDouble a, double factor) {
@@ -414,23 +427,52 @@ public class TemplateComputationalGeometry {
   }
 
   static boolean isPoint(LineLong l) {
-    return l.ab.x != 0 && l.ab.y != 0;
+    return l.ab.x == 0 && l.ab.y == 0;
   }
 
   static boolean onLine(PointLong p, LineLong l) {
-    return false;
+    return isPoint(l) ? l.a.equals(p) : crossProduct(minus(p, l.a), l.ab) == 0;
   }
 
   static boolean onSegment(PointLong p, LineLong s) {
-    return false;
+    if (isPoint(s)) {
+      return s.a.equals(p);
+    } else {
+      PointLong pa = minus(s.a, p);
+      PointLong pb = minus(s.b(), p);
+      return crossProduct(pa, pb) == 0 && dotProduct(pa, pb) <= 0;
+    }
   }
 
   static double distanceToLine(PointLong p, LineLong l) {
-    return 0.0;
+    if (isPoint(l)) {
+      return distance(p, l.a);
+    } else {
+      return crossProduct(minus(p, l.a), l.ab) / norm(l.ab);
+    }
   }
 
   static double distanceToSegment(PointLong p, LineLong s) {
-    return 0.0;
+    if (dotProduct(minus(p, s.a), s.ab) <= 0) {
+      return distance(p, s.a);
+    } else if (dotProduct(minus(p, s.b()), s.ab) <= 0) {
+      return distanceToLine(p, s);
+    } else {
+      return distance(p, s.b());
+    }
+  }
+
+  static void sortByAngle(ArrayList<PointLong> points) {
+    sortByAngle(points, new PointLong(0, 0));
+  }
+
+  static void sortByAngle(ArrayList<PointLong> points, PointLong origin) {
+    int iPivot = partition(points, p -> greaterEqualTo(p, origin));
+    Collections.sort(
+        points.subList(0, iPivot), (PointLong p1, PointLong p2) -> (int) clockwise(p2, p1, origin));
+    Collections.sort(
+        points.subList(iPivot, points.size()),
+        (PointLong p1, PointLong p2) -> (int) clockwise(p2, p1, origin));
   }
 
   abstract static class Polygon {}
@@ -523,5 +565,12 @@ public class TemplateComputationalGeometry {
     return l < 0 ? -1 : l > 0 ? 1 : 0;
   }
 
-  static void main(String[] args) {}
+  public static void main(String[] args) {
+    PointLong p11 = new PointLong(1, 1);
+    PointLong p14 = new PointLong(1, 4);
+    PointLong p21 = new PointLong(2, 1);
+    PointLong p23 = new PointLong(2, 3);
+    ArrayList<PointLong> input = new ArrayList<PointLong>(Arrays.asList(p14, p21, p23, p11));
+    sortByAngle(input);
+  }
 }

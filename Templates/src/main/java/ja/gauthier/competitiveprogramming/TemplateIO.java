@@ -1,3 +1,5 @@
+package ja.gauthier.competitiveprogramming;
+
 import java.io.*;
 import java.util.*;
 
