@@ -1,7 +1,9 @@
 package ja.gauthier.competitiveprogramming;
 
 import java.io.*;
+import java.lang.*;
 import java.util.*;
+import java.util.function.*;
 
 public class TemplateIO {
   public static void main(String[] args) {}

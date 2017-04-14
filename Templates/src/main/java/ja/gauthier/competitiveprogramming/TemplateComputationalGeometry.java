@@ -4,12 +4,15 @@ import static ja.gauthier.competitiveprogramming.TemplateIO.*;
 import static ja.gauthier.competitiveprogramming.TemplateMisc.*;
 
 import java.io.*;
+import java.lang.*;
 import java.util.*;
+import java.util.function.*;
 
 public class TemplateComputationalGeometry {
 
   abstract static class Point {}
 
+  /** Assumption: neither x nor y are +/-Infinity, NaN or -0 */
   static class PointDouble extends Point implements Comparable<PointDouble> {
     double x;
     double y;
@@ -102,7 +105,6 @@ public class TemplateComputationalGeometry {
       this.y *= other.y;
     }
 
-    @Override
     public String toString() {
       return "(" + this.x + "," + this.y + ")";
     }
@@ -198,7 +200,6 @@ public class TemplateComputationalGeometry {
       this.y *= other.y;
     }
 
-    @Override
     public String toString() {
       return "(" + this.x + "," + this.y + ")";
     }
@@ -376,6 +377,19 @@ public class TemplateComputationalGeometry {
     return a.y < b.y || (a.y == b.y && a.x < b.x);
   }
 
+  static void sortByAngle(ArrayList<PointLong> points) {
+    sortByAngle(points, new PointLong(0, 0));
+  }
+
+  static void sortByAngle(ArrayList<PointLong> points, PointLong origin) {
+    int iPivot = partition(points, p -> greaterEqualTo(p, origin));
+    Collections.sort(
+        points.subList(0, iPivot), (PointLong p1, PointLong p2) -> (int) clockwise(p2, p1, origin));
+    Collections.sort(
+        points.subList(iPivot, points.size()),
+        (PointLong p1, PointLong p2) -> (int) clockwise(p2, p1, origin));
+  }
+
   static PointDouble times(PointDouble a, double factor) {
     return new PointDouble(a.x * factor, a.y * factor);
   }
@@ -403,6 +417,10 @@ public class TemplateComputationalGeometry {
       this.ab = new PointLong(twoPoints ? minus(b, a) : b);
     }
 
+    public PointLong b() {
+      return plus(a, ab);
+    }
+
     public boolean equals(Object other) {
       if (this == other) {
         return true;
@@ -421,8 +439,68 @@ public class TemplateComputationalGeometry {
       return Objects.hash(this.a, this.ab);
     }
 
-    public PointLong b() {
-      return plus(a, ab);
+    public String toString() {
+      return new StringBuffer()
+          .append("((")
+          .append(this.a.x)
+          .append(",")
+          .append(this.a.y)
+          .append("),(")
+          .append(this.ab.x)
+          .append(",")
+          .append(this.ab.y)
+          .append("))")
+          .toString();
+    }
+  }
+
+  static enum EndpointType {
+    RAY((a, b) -> true),
+    OPEN((a, b) -> a < b),
+    CLOSED((a, b) -> a <= b);
+
+    LongBiPredicate predicate;
+
+    EndpointType(LongBiPredicate predicate) {
+      this.predicate = predicate;
+    }
+  }
+
+  /** Assumption: 1. Parallel lines are not on same line 2. Input lines are not points */
+  static PointDouble intersect(
+      LineLong ab,
+      EndpointType paba,
+      EndpointType pabb,
+      LineLong cd,
+      EndpointType pcda,
+      EndpointType pcdb) {
+    long abCrossCd = crossProduct(ab.ab, cd.ab);
+
+    if (abCrossCd == 0 || isPoint(ab) || isPoint(cd)) {
+      return null;
+    } else {
+      PointLong ac = minus(cd.a, ab.a);
+      long acCrossCd = crossProduct(ac, cd.ab);
+      long acCrossAb = crossProduct(ac, ab.ab);
+
+      if (abCrossCd < 0) {
+        abCrossCd = -abCrossCd;
+        acCrossCd = -acCrossCd;
+        acCrossAb = -acCrossAb;
+      }
+
+      boolean intersect =
+          paba.predicate.test(0, acCrossCd)
+              && pabb.predicate.test(acCrossCd, 1)
+              && pcda.predicate.test(0, acCrossAb)
+              && pcdb.predicate.test(acCrossAb, 1);
+
+      if (intersect) {
+        return plus(
+            ab.a.asPointDouble(), times(ab.ab.asPointDouble(), acCrossCd / (double) abCrossCd));
+      } else {
+        return null;
+      }
     }
   }
 
@@ -460,19 +538,6 @@ public class TemplateComputationalGeometry {
     } else {
       return distance(p, s.b());
     }
-  }
-
-  static void sortByAngle(ArrayList<PointLong> points) {
-    sortByAngle(points, new PointLong(0, 0));
-  }
-
-  static void sortByAngle(ArrayList<PointLong> points, PointLong origin) {
-    int iPivot = partition(points, p -> greaterEqualTo(p, origin));
-    Collections.sort(
-        points.subList(0, iPivot), (PointLong p1, PointLong p2) -> (int) clockwise(p2, p1, origin));
-    Collections.sort(
-        points.subList(iPivot, points.size()),
-        (PointLong p1, PointLong p2) -> (int) clockwise(p2, p1, origin));
   }
 
   abstract static class Polygon {}
@@ -517,6 +582,18 @@ public class TemplateComputationalGeometry {
 
     public int hashCode() {
       return Objects.hashCode(this.points);
+    }
+
+    public String toString() {
+      StringBuilder sb = new StringBuilder(this.points.size() * 5);
+      sb.append("(");
+      for (PointLong p : this.points) {
+        sb.append("(").append(p.x).append(",").append(p.y).append("),");
+      }
+      if (sb.length() > 1) {
+        sb.deleteCharAt(sb.length() - 1);
+      }
+      return sb.append(")").toString();
     }
   }
 
@@ -566,11 +643,14 @@ public class TemplateComputationalGeometry {
   }
 
   public static void main(String[] args) {
-    PointLong p11 = new PointLong(1, 1);
-    PointLong p14 = new PointLong(1, 4);
-    PointLong p21 = new PointLong(2, 1);
-    PointLong p23 = new PointLong(2, 3);
-    ArrayList<PointLong> input = new ArrayList<PointLong>(Arrays.asList(p14, p21, p23, p11));
-    sortByAngle(input);
+
+    PointLong pointp0p1 = new PointLong(0, 1);
+    PointLong pointp0p4 = new PointLong(0, 4);
+    LineLong lineXp0 = new LineLong(pointp0p1, pointp0p4, false);
+    PointLong pointm1p0 = new PointLong(-1, 0);
+    PointLong pointp1p0 = new PointLong(1, 0);
+    LineLong lineY0 = new LineLong(pointm1p0, pointp1p0, false);
+    intersect(
+        lineXp0, EndpointType.RAY, EndpointType.RAY, lineY0, EndpointType.RAY, EndpointType.RAY);
   }
 }
