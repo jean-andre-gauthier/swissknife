@@ -51,7 +51,7 @@ public class TemplateComputationalGeometry {
         throw new NullPointerException();
       } else if (this.equals(other)) {
         return 0;
-      } else if (smallerThan(this, other)) {
+      } else if (smallerThanP(this, other)) {
         return -1;
       } else {
         return 1;
@@ -70,7 +70,7 @@ public class TemplateComputationalGeometry {
         return false;
       } else {
         PointDouble otherPointDouble = (PointDouble) other;
-        return this.x == otherPointDouble.x && this.y == otherPointDouble.y;
+        return equalTo(this.x, otherPointDouble.x) && equalTo(this.y, otherPointDouble.y);
       }
     }
 
@@ -148,7 +148,7 @@ public class TemplateComputationalGeometry {
         throw new NullPointerException();
       } else if (this.equals(other)) {
         return 0;
-      } else if (smallerThan(this, other)) {
+      } else if (smallerThanP(this, other)) {
         return -1;
       } else {
         return 1;
@@ -285,20 +285,20 @@ public class TemplateComputationalGeometry {
     return a.x * b.x + a.y * b.y;
   }
 
-  static boolean greaterEqualTo(PointDouble a, PointDouble b) {
-    return !smallerThan(a, b);
+  static boolean greaterEqualToP(PointDouble a, PointDouble b) {
+    return !smallerThanP(a, b);
   }
 
-  static boolean greaterEqualTo(PointLong a, PointLong b) {
-    return !smallerThan(a, b);
+  static boolean greaterEqualToP(PointLong a, PointLong b) {
+    return !smallerThanP(a, b);
   }
 
-  static boolean greaterThan(PointDouble a, PointDouble b) {
-    return !smallerEqualTo(a, b);
+  static boolean greaterThanP(PointDouble a, PointDouble b) {
+    return !smallerEqualToP(a, b);
   }
 
-  static boolean greaterThan(PointLong a, PointLong b) {
-    return !smallerEqualTo(a, b);
+  static boolean greaterThanP(PointLong a, PointLong b) {
+    return !smallerEqualToP(a, b);
   }
 
   static PointDouble minus(PointDouble a) {
@@ -361,19 +361,19 @@ public class TemplateComputationalGeometry {
     return plus(origin.asPointDouble(), rotate(minus(a, origin), angle));
   }
 
-  static boolean smallerEqualTo(PointDouble a, PointDouble b) {
+  static boolean smallerEqualToP(PointDouble a, PointDouble b) {
+    return smallerThan(a.y, b.y) || (equalTo(a.y, b.y) && smallerEqualTo(a.x, b.x));
+  }
+
+  static boolean smallerEqualToP(PointLong a, PointLong b) {
     return a.y < b.y || (a.y == b.y && a.x <= b.x);
   }
 
-  static boolean smallerEqualTo(PointLong a, PointLong b) {
-    return a.y < b.y || (a.y == b.y && a.x <= b.x);
+  static boolean smallerThanP(PointDouble a, PointDouble b) {
+    return smallerThan(a.y, b.y) || (equalTo(a.y, b.y) && smallerThan(a.x, b.x));
   }
 
-  static boolean smallerThan(PointDouble a, PointDouble b) {
-    return a.y < b.y || (a.y == b.y && a.x < b.x);
-  }
-
-  static boolean smallerThan(PointLong a, PointLong b) {
+  static boolean smallerThanP(PointLong a, PointLong b) {
     return a.y < b.y || (a.y == b.y && a.x < b.x);
   }
 
@@ -382,7 +382,7 @@ public class TemplateComputationalGeometry {
   }
 
   static void sortByAngle(ArrayList<PointLong> points, PointLong origin) {
-    int iPivot = partition(points, p -> greaterEqualTo(p, origin));
+    int iPivot = partition(points, p -> greaterEqualToP(p, origin));
     Collections.sort(
         points.subList(0, iPivot), (PointLong p1, PointLong p2) -> (int) clockwise(p2, p1, origin));
     Collections.sort(
@@ -643,14 +643,26 @@ public class TemplateComputationalGeometry {
   }
 
   public static void main(String[] args) {
-
     PointLong pointp0p1 = new PointLong(0, 1);
     PointLong pointp0p4 = new PointLong(0, 4);
     LineLong lineXp0 = new LineLong(pointp0p1, pointp0p4, false);
     PointLong pointm1p0 = new PointLong(-1, 0);
     PointLong pointp1p0 = new PointLong(1, 0);
     LineLong lineY0 = new LineLong(pointm1p0, pointp1p0, false);
+    PointDouble origin = new PointDouble(0, 0);
+    PointLong pointp1p5 = new PointLong(1, 5);
+    LineLong lineY5Xp1 = new LineLong(pointp0p1, pointp1p5, false);
+    PointDouble pointm05p0 = new PointDouble(-0.2, 0);
+    PointLong pointm05m1 = new PointLong(-0.5, -1);
+    PointLong pointm1m2 = new PointLong(1, -2);
+    LineLong lineYm2Xm2 = new LineLong(pointm05m1, pointm1m2, false);
+    PointDouble pointm37thm87th = new PointDouble(-3 / 7.0, -8 / 7.0);
     intersect(
-        lineXp0, EndpointType.RAY, EndpointType.RAY, lineY0, EndpointType.RAY, EndpointType.RAY);
+        lineY5Xp1,
+        EndpointType.RAY,
+        EndpointType.RAY,
+        lineYm2Xm2,
+        EndpointType.RAY,
+        EndpointType.RAY);
   }
 }

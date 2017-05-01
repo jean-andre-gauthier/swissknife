@@ -25,6 +25,10 @@ public class IntersectTest {
     PointLong pointp1p5 = new PointLong(1, 5);
     LineLong lineY5Xp1 = new LineLong(pointp0p1, pointp1p5, false);
     PointDouble pointm05p0 = new PointDouble(-0.2, 0);
+    PointLong pointm05m1 = new PointLong(-0.5, -1);
+    PointLong pointm1m2 = new PointLong(1, -2);
+    LineLong lineYm2Xm2 = new LineLong(pointm05m1, pointm1m2, false);
+    PointDouble pointm37thm87th = new PointDouble(-3 / 7.0, -8 / 7.0);
 
     return Arrays.asList(
         new Object[][] {
@@ -36,17 +40,34 @@ public class IntersectTest {
             EndpointType.RAY,
             EndpointType.RAY,
             origin
+          },
+          {
+            lineY0,
+            EndpointType.RAY,
+            EndpointType.RAY,
+            lineY5Xp1,
+            EndpointType.RAY,
+            EndpointType.RAY,
+            pointm05p0
+          },
+          {
+            lineY0,
+            EndpointType.RAY,
+            EndpointType.RAY,
+            lineY0,
+            EndpointType.RAY,
+            EndpointType.RAY,
+            null
+          },
+          {
+            lineY5Xp1,
+            EndpointType.RAY,
+            EndpointType.RAY,
+            lineYm2Xm2,
+            EndpointType.RAY,
+            EndpointType.RAY,
+            pointm37thm87th
           }
-          /* }, */
-          /* { */
-          /*   lineY0, */
-          /*   EndpointType.RAY, */
-          /*   EndpointType.RAY, */
-          /*   lineY5Xp1, */
-          /*   EndpointType.RAY, */
-          /*   EndpointType.RAY, */
-          /*   pointm05p0 */
-          /* } */
         });
   }
 
