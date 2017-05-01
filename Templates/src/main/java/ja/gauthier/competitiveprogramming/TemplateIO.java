@@ -68,6 +68,10 @@ public class TemplateIO {
       println(ts, true);
     }
 
+    <T, U> void println(Map<T, U> ts) {
+      println(ts, true);
+    }
+
     void println(int[] ts, boolean newline) {
       StringBuilder sb = new StringBuilder();
       for (int t : ts) {
@@ -112,6 +116,20 @@ public class TemplateIO {
       StringBuilder sb = new StringBuilder();
       for (T t : ts) {
         sb.append(t.toString());
+        sb.append((newline ? "\n" : " "));
+      }
+      if (sb.length() > 0) {
+        sb.deleteCharAt(sb.length() - 1);
+      }
+      pw.println(sb.toString());
+    }
+
+    <T, U> void println(Map<T, U> ts, boolean newline) {
+      StringBuilder sb = new StringBuilder();
+      for (Map.Entry<T, U> t : ts.entrySet()) {
+        sb.append(t.getKey().toString());
+        sb.append(" -> ");
+        sb.append(t.getValue().toString());
         sb.append((newline ? "\n" : " "));
       }
       if (sb.length() > 0) {
