@@ -58,10 +58,10 @@ public class TemplateComputationalGeometry {
       }
     }
 
-    void divideBy(double factor) {
-      this.x /= factor;
-      this.y /= factor;
-    }
+    /* void divideBy(double factor) { */
+    /*   this.x /= factor; */
+    /*   this.y /= factor; */
+    /* } */
 
     public boolean equals(Object other) {
       if (this == other) {
@@ -79,31 +79,31 @@ public class TemplateComputationalGeometry {
       long yLongBits = Double.doubleToLongBits(this.y);
       return (int) (31 * (xLongBits ^ (xLongBits >>> 32)) + (int) (yLongBits ^ (yLongBits >>> 32)));
     }
-
-    void minus() {
-      this.x = -this.x;
-      this.y = -this.y;
-    }
-
-    void minus(PointDouble other) {
-      this.x -= other.x;
-      this.y -= other.y;
-    }
-
-    void plus(PointDouble other) {
-      this.x += other.x;
-      this.y += other.y;
-    }
-
-    void times(double factor) {
-      this.x *= factor;
-      this.y *= factor;
-    }
-
-    void times(PointDouble other) {
-      this.x *= other.x;
-      this.y *= other.y;
-    }
+    /*  */
+    /* void minus() { */
+    /*   this.x = -this.x; */
+    /*   this.y = -this.y; */
+    /* } */
+    /*  */
+    /* void minus(PointDouble other) { */
+    /*   this.x -= other.x; */
+    /*   this.y -= other.y; */
+    /* } */
+    /*  */
+    /* void plus(PointDouble other) { */
+    /*   this.x += other.x; */
+    /*   this.y += other.y; */
+    /* } */
+    /*  */
+    /* void times(double factor) { */
+    /*   this.x *= factor; */
+    /*   this.y *= factor; */
+    /* } */
+    /*  */
+    /* void times(PointDouble other) { */
+    /*   this.x *= other.x; */
+    /*   this.y *= other.y; */
+    /* } */
 
     public String toString() {
       return "(" + this.x + "," + this.y + ")";
@@ -155,10 +155,10 @@ public class TemplateComputationalGeometry {
       }
     }
 
-    void divideBy(long factor) {
-      this.x = (long) Math.round(this.x / (double) factor);
-      this.y = (long) Math.round(this.y / (double) factor);
-    }
+    /* void divideBy(long factor) { */
+    /*   this.x = (long) Math.round(this.x / (double) factor); */
+    /*   this.y = (long) Math.round(this.y / (double) factor); */
+    /* } */
 
     public boolean equals(Object other) {
       if (this == other) {
@@ -175,30 +175,30 @@ public class TemplateComputationalGeometry {
       return (int) (31 * (this.x ^ (this.x >>> 32)) + (int) (this.y ^ (this.y >>> 32)));
     }
 
-    void minus() {
-      this.x = -this.x;
-      this.y = -this.y;
-    }
-
-    void minus(PointLong other) {
-      this.x -= other.x;
-      this.y -= other.y;
-    }
-
-    void plus(PointLong other) {
-      this.x += other.x;
-      this.y += other.y;
-    }
-
-    void times(long factor) {
-      this.x *= factor;
-      this.y *= factor;
-    }
-
-    void times(PointLong other) {
-      this.x *= other.x;
-      this.y *= other.y;
-    }
+    /* void minus() { */
+    /*   this.x = -this.x; */
+    /*   this.y = -this.y; */
+    /* } */
+    /*  */
+    /* void minus(PointLong other) { */
+    /*   this.x -= other.x; */
+    /*   this.y -= other.y; */
+    /* } */
+    /*  */
+    /* void plus(PointLong other) { */
+    /*   this.x += other.x; */
+    /*   this.y += other.y; */
+    /* } */
+    /*  */
+    /* void times(long factor) { */
+    /*   this.x *= factor; */
+    /*   this.y *= factor; */
+    /* } */
+    /*  */
+    /* void times(PointLong other) { */
+    /*   this.x *= other.x; */
+    /*   this.y *= other.y; */
+    /* } */
 
     public String toString() {
       return "(" + this.x + "," + this.y + ")";
