@@ -42,8 +42,8 @@ public class TemplateMisc {
   }
 
   static class MinMaxStackInt {
-    private int[][] stack;
-    private int top;
+    int[][] stack;
+    int top;
 
     MinMaxStackInt(int capacity) {
       stack = new int[capacity][3];
@@ -63,8 +63,8 @@ public class TemplateMisc {
     }
 
     int pop() {
-      if (top == stack.length / 4) {
-        stack = Arrays.copyOf(stack, stack.length / 2);
+      if (stack.length >= 4 && top == stack.length / 4) {
+        stack = Arrays.copyOf(stack, Math.max(1, stack.length / 2));
       }
       return stack[top--][0];
     }
@@ -90,8 +90,8 @@ public class TemplateMisc {
   }
 
   static class MinMaxStackLong {
-    private long[][] stack;
-    private int top;
+    long[][] stack;
+    int top;
 
     MinMaxStackLong(int capacity) {
       stack = new long[capacity][3];
@@ -138,8 +138,8 @@ public class TemplateMisc {
   }
 
   static class MinMaxStackDouble {
-    private double[][] stack;
-    private int top;
+    double[][] stack;
+    int top;
 
     MinMaxStackDouble(int capacity) {
       stack = new double[capacity][3];
@@ -182,6 +182,51 @@ public class TemplateMisc {
 
     int size() {
       return top + 1;
+    }
+  }
+
+  static class MinMaxQueueInt {
+    MinMaxStackInt stackIn;
+    MinMaxStackInt stackOut;
+
+    MinMaxQueueInt(int stackCapacity) {
+      stackIn = new MinMaxStackInt(stackCapacity);
+      stackOut = new MinMaxStackInt(stackCapacity);
+    }
+
+    int dequeue() {
+      if (!stackOut.isEmpty()) {
+        return stackOut.pop();
+      } else {
+        while (!stackIn.isEmpty()) {
+          stackOut.push(stackIn.pop());
+        }
+        return stackOut.pop();
+      }
+    }
+
+    int getMax() {
+      return stackIn.isEmpty()
+          ? stackOut.getMax()
+          : stackOut.isEmpty() ? stackIn.getMax() : Math.max(stackIn.getMax(), stackOut.getMax());
+    }
+
+    int getMin() {
+      return stackIn.isEmpty()
+          ? stackOut.getMin()
+          : stackOut.isEmpty() ? stackIn.getMin() : Math.min(stackIn.getMin(), stackOut.getMin());
+    }
+
+    boolean isEmpty() {
+      return stackIn.isEmpty() && stackOut.isEmpty();
+    }
+
+    void enqueue(int i) {
+      stackIn.push(i);
+    }
+
+    int size() {
+      return stackIn.size() + stackOut.size();
     }
   }
 
@@ -245,8 +290,8 @@ public class TemplateMisc {
   }
 
   public static void main(String[] args) {
-    MinMaxStackInt s = new MinMaxStackInt(1);
-    s.push(0);
-    s.push(1);
+    MinMaxQueueInt s = new MinMaxQueueInt(1);
+    s.enqueue(0);
+    s.enqueue(1);
   }
 }
