@@ -226,12 +226,72 @@ public class TemplateIO {
       return Integer.parseInt(next());
     }
 
+    int[] nextInts(int n) {
+      return nextInts(n, false);
+    }
+
+    int[] nextInts(int n, boolean oneBased) {
+      if (oneBased) {
+        return nextInts(n, 1, n + 1);
+      } else {
+        return nextInts(n, 0, n);
+      }
+    }
+
+    int[] nextInts(int n, int iMin, int iMax) {
+      int[] ints = new int[iMax];
+      for (int i = iMin; i < iMax; ++i) {
+        ints[i] = nextInt();
+      }
+      return ints;
+    }
+
     long nextLong() {
       return Long.parseLong(next());
     }
 
+    long[] nextLongs(int n) {
+      return nextLongs(n, false);
+    }
+
+    long[] nextLongs(int n, boolean oneBased) {
+      if (oneBased) {
+        return nextLongs(n, 1, n + 1);
+      } else {
+        return nextLongs(n, 0, n);
+      }
+    }
+
+    long[] nextLongs(int n, int iMin, int iMax) {
+      long[] longs = new long[iMax];
+      for (int i = iMin; i < iMax; ++i) {
+        longs[i] = nextLong();
+      }
+      return longs;
+    }
+
     double nextDouble() {
       return Double.parseDouble(next());
+    }
+
+    double[] nextDoubles(int n) {
+      return nextDoubles(n, false);
+    }
+
+    double[] nextDoubles(int n, boolean oneBased) {
+      if (oneBased) {
+        return nextDoubles(n, 1, n + 1);
+      } else {
+        return nextDoubles(n, 0, n);
+      }
+    }
+
+    double[] nextDoubles(int n, int iMin, int iMax) {
+      double[] doubles = new double[iMax];
+      for (int i = iMin; i < iMax; ++i) {
+        doubles[i] = nextDouble();
+      }
+      return doubles;
     }
   }
 }
