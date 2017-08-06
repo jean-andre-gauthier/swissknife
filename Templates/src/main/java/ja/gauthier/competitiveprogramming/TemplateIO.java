@@ -298,32 +298,62 @@ public class TemplateIO {
   }
 
   static class RandScanner {
-    Random r;
+    ThreadLocalRandom r;
 
     RandScanner() {
-      this.r = new Random();
+      this.r = ThreadLocalRandom.current();
     }
 
     int nextInt() {
       return r.nextInt();
     }
 
+    int nextInt(int upperBoundExclusive) {
+      return r.nextInt(upperBoundExclusive);
+    }
+
+    int nextInt(int lowerBoundInclusive, int upperBoundExclusive) {
+      return r.nextInt(lowerBoundInclusive, upperBoundExclusive);
+    }
+
     int[] nextInts(int n) {
       return nextInts(n, false);
     }
 
-    int[] nextInts(int n, boolean oneBased) {
-      if (oneBased) {
-        return nextInts(n, 1, n + 1);
-      } else {
-        return nextInts(n, 0, n);
-      }
+    int[] nextInts(int n, int upperBoundExclusive) {
+      return nextInts(n, false, upperBoundExclusive);
     }
 
-    int[] nextInts(int n, int iMin, int iMax) {
+    int[] nextInts(int n, int lowerBoundInclusive, int upperBoundExclusive) {
+      return nextInts(n, false, lowerBoundInclusive, upperBoundExclusive);
+    }
+
+    int[] nextInts(int n, boolean oneBased) {
+      int iMin = oneBased ? 1 : 0;
+      int iMax = oneBased ? n + 1 : n;
       int[] ints = new int[iMax];
       for (int i = iMin; i < iMax; ++i) {
         ints[i] = nextInt();
+      }
+      return ints;
+    }
+
+    int[] nextInts(int n, boolean oneBased, int upperBoundExclusive) {
+      int iMin = oneBased ? 1 : 0;
+      int iMax = oneBased ? n + 1 : n;
+      int[] ints = new int[iMax];
+      for (int i = iMin; i < iMax; ++i) {
+        ints[i] = nextInt(upperBoundExclusive);
+      }
+      return ints;
+    }
+
+    int[] nextInts(int n, boolean oneBased, int lowerBoundInclusive, int upperBoundExclusive) {
+      int iMin = oneBased ? 1 : 0;
+      int iMax = oneBased ? n + 1 : n;
+      int[] ints = new int[iMax];
+      for (int i = iMin; i < iMax; ++i) {
+        ints[i] = nextInt(lowerBoundInclusive, upperBoundExclusive);
       }
       return ints;
     }
@@ -332,22 +362,52 @@ public class TemplateIO {
       return r.nextLong();
     }
 
+    long nextLong(long upperBoundExclusive) {
+      return r.nextLong(upperBoundExclusive);
+    }
+
+    long nextLong(long lowerBoundInclusive, long upperBoundExclusive) {
+      return r.nextLong(lowerBoundInclusive, upperBoundExclusive);
+    }
+
     long[] nextLongs(int n) {
       return nextLongs(n, false);
     }
 
-    long[] nextLongs(int n, boolean oneBased) {
-      if (oneBased) {
-        return nextLongs(n, 1, n + 1);
-      } else {
-        return nextLongs(n, 0, n);
-      }
+    long[] nextLongs(int n, long upperBoundExclusive) {
+      return nextLongs(n, false, upperBoundExclusive);
     }
 
-    long[] nextLongs(int n, int iMin, int iMax) {
+    long[] nextLongs(int n, long lowerBoundInclusive, long upperBoundExclusive) {
+      return nextLongs(n, false, lowerBoundInclusive, upperBoundExclusive);
+    }
+
+    long[] nextLongs(int n, boolean oneBased) {
+      int iMin = oneBased ? 1 : 0;
+      int iMax = oneBased ? n + 1 : n;
       long[] longs = new long[iMax];
       for (int i = iMin; i < iMax; ++i) {
         longs[i] = nextLong();
+      }
+      return longs;
+    }
+
+    long[] nextLongs(int n, boolean oneBased, long upperBoundExclusive) {
+      int iMin = oneBased ? 1 : 0;
+      int iMax = oneBased ? n + 1 : n;
+      long[] longs = new long[iMax];
+      for (int i = iMin; i < iMax; ++i) {
+        longs[i] = nextLong(upperBoundExclusive);
+      }
+      return longs;
+    }
+
+    long[] nextLongs(int n, boolean oneBased, long lowerBoundInclusive, long upperBoundExclusive) {
+      int iMin = oneBased ? 1 : 0;
+      int iMax = oneBased ? n + 1 : n;
+      long[] longs = new long[iMax];
+      for (int i = iMin; i < iMax; ++i) {
+        longs[i] = nextLong(lowerBoundInclusive, upperBoundExclusive);
       }
       return longs;
     }
@@ -356,22 +416,53 @@ public class TemplateIO {
       return r.nextDouble();
     }
 
+    double nextDouble(double upperBoundExclusive) {
+      return r.nextDouble(upperBoundExclusive);
+    }
+
+    double nextDouble(double lowerBoundInclusive, double upperBoundExclusive) {
+      return r.nextDouble(lowerBoundInclusive, upperBoundExclusive);
+    }
+
     double[] nextDoubles(int n) {
       return nextDoubles(n, false);
     }
 
-    double[] nextDoubles(int n, boolean oneBased) {
-      if (oneBased) {
-        return nextDoubles(n, 1, n + 1);
-      } else {
-        return nextDoubles(n, 0, n);
-      }
+    double[] nextDoubles(int n, double upperBoundExclusive) {
+      return nextDoubles(n, false, upperBoundExclusive);
     }
 
-    double[] nextDoubles(int n, int iMin, int iMax) {
+    double[] nextDoubles(int n, double lowerBoundInclusive, double upperBoundExclusive) {
+      return nextDoubles(n, false, lowerBoundInclusive, upperBoundExclusive);
+    }
+
+    double[] nextDoubles(int n, boolean oneBased) {
+      int iMin = oneBased ? 1 : 0;
+      int iMax = oneBased ? n + 1 : n;
       double[] doubles = new double[iMax];
       for (int i = iMin; i < iMax; ++i) {
         doubles[i] = nextDouble();
+      }
+      return doubles;
+    }
+
+    double[] nextDoubles(int n, boolean oneBased, double upperBoundExclusive) {
+      int iMin = oneBased ? 1 : 0;
+      int iMax = oneBased ? n + 1 : n;
+      double[] doubles = new double[iMax];
+      for (int i = iMin; i < iMax; ++i) {
+        doubles[i] = nextDouble(upperBoundExclusive);
+      }
+      return doubles;
+    }
+
+    double[] nextDoubles(
+        int n, boolean oneBased, double lowerBoundInclusive, double upperBoundExclusive) {
+      int iMin = oneBased ? 1 : 0;
+      int iMax = oneBased ? n + 1 : n;
+      double[] doubles = new double[iMax];
+      for (int i = iMin; i < iMax; ++i) {
+        doubles[i] = nextDouble(lowerBoundInclusive, upperBoundExclusive);
       }
       return doubles;
     }
