@@ -1,6 +1,6 @@
 package ja.gauthier.competitiveprogramming;
 
-import static ja.gauthier.competitiveprogramming.TemplateComputationalGeometry.*;
+import static ja.gauthier.competitiveprogramming.ComputationalGeometry.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 

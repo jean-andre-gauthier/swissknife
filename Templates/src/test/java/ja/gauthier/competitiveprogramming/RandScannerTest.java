@@ -1,6 +1,6 @@
 package ja.gauthier.competitiveprogramming;
 
-import static ja.gauthier.competitiveprogramming.TemplateIO.*;
+import static ja.gauthier.competitiveprogramming.IO.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 

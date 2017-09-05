@@ -1,14 +1,15 @@
 package ja.gauthier.competitiveprogramming;
 
-import static ja.gauthier.competitiveprogramming.TemplateIO.*;
-import static ja.gauthier.competitiveprogramming.TemplateMisc.*;
+import static ja.gauthier.competitiveprogramming.Algorithms.*;
+import static ja.gauthier.competitiveprogramming.Doubles.*;
 
 import java.io.*;
 import java.lang.*;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.function.*;
 
-public class TemplateComputationalGeometry {
+public class ComputationalGeometry {
 
   abstract static class Point {}
 

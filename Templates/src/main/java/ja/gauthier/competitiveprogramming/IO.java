@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.*;
 
-public class TemplateIO {
+public class IO {
   public static void main(String[] args) {}
 
   static MyScanner in = new MyScanner();
@@ -51,27 +51,27 @@ public class TemplateIO {
     }
 
     void println(int[] ts) {
-      println(ts, true);
+      println(ts, false);
     }
 
     void println(long[] ts) {
-      println(ts, true);
+      println(ts, false);
     }
 
     void println(double[] ts) {
-      println(ts, true);
+      println(ts, false);
     }
 
     <T> void println(T[] ts) {
-      println(ts, true);
+      println(ts, false);
     }
 
     <T> void println(Collection<T> ts) {
-      println(ts, true);
+      println(ts, false);
     }
 
     <T, U> void println(Map<T, U> ts) {
-      println(ts, true);
+      println(ts, false);
     }
 
     void println(int[] ts, boolean newline) {

@@ -1,6 +1,6 @@
 package ja.gauthier.competitiveprogramming;
 
-import static ja.gauthier.competitiveprogramming.TemplateIO.*;
+import static ja.gauthier.competitiveprogramming.IO.*;
 
 import java.io.*;
 import java.lang.*;
@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.*;
 
-public class TemplateIntervalTrees {
+public class IntervalTrees {
 
   static class BinaryIndexedTreeLong {
     long tree[];

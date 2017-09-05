@@ -1,7 +1,7 @@
 package ja.gauthier.competitiveprogramming;
 
-import static ja.gauthier.competitiveprogramming.TemplateIO.*;
-import static ja.gauthier.competitiveprogramming.TemplateIntervalTrees.*;
+import static ja.gauthier.competitiveprogramming.IO.*;
+import static ja.gauthier.competitiveprogramming.IntervalTrees.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 

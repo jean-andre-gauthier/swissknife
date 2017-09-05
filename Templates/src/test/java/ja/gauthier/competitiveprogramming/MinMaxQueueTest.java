@@ -3,7 +3,7 @@ package ja.gauthier.competitiveprogramming;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
-import ja.gauthier.competitiveprogramming.TemplateMisc.*;
+import ja.gauthier.competitiveprogramming.MinMaxQueueStack.*;
 import java.util.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
