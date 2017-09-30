@@ -15,27 +15,35 @@ public class AATree {
 
     AANodeInt[] children;
     int level;
+    int nNodes;
+    int occurrence;
     int size;
     int value;
 
     AANodeInt() {
-      this.children = new AANodeInt[] {this, this};
+      children = new AANodeInt[] {this, this};
       level = 0;
+      nNodes = 0;
+      occurrence = 0;
       size = 0;
       value = 0;
     }
 
     AANodeInt(int value) {
-      this.children = new AANodeInt[] {nil, nil};
-      this.level = 1;
-      this.size = 1;
+      children = new AANodeInt[] {nil, nil};
+      level = 1;
+      nNodes = 1;
+      occurrence = 1;
+      size = 1;
       this.value = value;
     }
 
-    AANodeInt(AANodeInt left, AANodeInt right, int level, int size, int value) {
-      this.children = new AANodeInt[] {left, right};
+    AANodeInt(AANodeInt left, AANodeInt right, int level, int occurrence, int value) {
+      children = new AANodeInt[] {left, right};
       this.level = level;
-      this.size = size;
+      nNodes = left.nNodes + right.nNodes + 1;
+      this.occurrence = occurrence;
+      size = left.size + right.size + occurrence;
       this.value = value;
     }
 
@@ -47,6 +55,10 @@ public class AATree {
         AANodeInt[] nodes = aaInorder(this);
         for (int i = 0; i < nodes.length; ++i) {
           sb.append(nodes[i].level)
+              .append(" ")
+              .append(nodes[i].nNodes)
+              .append(" ")
+              .append(nodes[i].occurrence)
               .append(" ")
               .append(nodes[i].size)
               .append(" ")
@@ -69,7 +81,9 @@ public class AATree {
   }
 
   /**
-   * Deletes k in the tree, if such a value exists.
+   * Returns the unmodified root if occurrence(root, k) == 0, a tree without the node containing k
+   * if occurence(root, k) == 1, a tree whose node containing k has had its occurrence decremented
+   * by 1 otherwise.
    *
    * <p>Complexity: O(log(n))
    */
@@ -96,6 +110,17 @@ public class AATree {
       return root;
     }
 
+    if (n.occurrence > 1) {
+      --n.occurrence;
+      --n.size;
+
+      while (--nsTop >= 0) {
+        --ns[nsTop].size;
+      }
+
+      return root;
+    }
+
     if (n.children[0] == AANodeInt.nil || n.children[1] == AANodeInt.nil) {
       int nside = n.children[1] == AANodeInt.nil ? 0 : 1;
       if (nsTop > 0) {
@@ -116,6 +141,7 @@ public class AATree {
 
     while (--nsTop >= 0) {
       AANodeInt nTop = ns[nsTop];
+      --ns[nsTop].nNodes;
       --ns[nsTop].size;
 
       if (ns[nsTop].children[0].level < ns[nsTop].level - 1
@@ -142,7 +168,9 @@ public class AATree {
   }
 
   /**
-   * Deletes k in the tree, if such a value exists.
+   * Returns the unmodified root if occurrence(root, k) == 0, a tree without the node containing k
+   * if occurence(root, k) == 1, a tree whose node containing k has had its occurrence incremented
+   * by 1 otherwise.
    *
    * <p>Complexity: O(log(n))
    */
@@ -182,10 +210,44 @@ public class AATree {
   //   }
   //   return t;
   // }
-  //
-  // static AANodeInt aaDifference(AANodeInt t1, AANodeInt t2) {
-  //   return null;
-  // }
+
+  /**
+   * Calculates the set difference of t1 and t2. The occurrence of an element is the maximum between
+   * 0 and the difference of its occurrences in t1 and t2. Destroys the trees contained in t1 and
+   * t2.
+   *
+   * <p>Time complexity: O(m+n)
+   *
+   * <p>Space complexity: O(m+n) heap, O(log(m+n)) stack
+   */
+  static AANodeInt aaDifference(AANodeInt t1, AANodeInt t2) {
+    int it1 = 0;
+    AANodeInt[] t1Inorder = aaInorder(t1);
+    int it2 = 0;
+    AANodeInt[] t2Inorder = aaInorder(t2);
+    int imerged = 0;
+    AANodeInt[] merged = new AANodeInt[t1Inorder.length];
+
+    while (it1 < t1Inorder.length) {
+      if (it2 == t2Inorder.length || t1Inorder[it1].value < t2Inorder[it2].value) {
+        merged[imerged++] = t1Inorder[it1++];
+      } else if (t1Inorder[it1].value > t2Inorder[it2].value) {
+        ++it2;
+      } else {
+        AANodeInt nodeMerged = t1Inorder[it1];
+
+        int t1Occurrence = t1Inorder[it1++].occurrence;
+        int t2Occurrence = t2Inorder[it2++].occurrence;
+        int occurrence = Math.max(0, t1Occurrence - t2Occurrence);
+        if (occurrence > 0) {
+          nodeMerged.occurrence = occurrence;
+          merged[imerged++] = nodeMerged;
+        }
+      }
+    }
+
+    return aaTreeFromSortedNodes(merged, 0, imerged);
+  }
 
   /**
    * Performs a Morris inorder tree traversal on t.
@@ -194,7 +256,7 @@ public class AATree {
    */
   static AANodeInt[] aaInorder(AANodeInt t) {
     int iInorder = 0;
-    AANodeInt[] inorder = new AANodeInt[t.size];
+    AANodeInt[] inorder = new AANodeInt[t.nNodes];
     while (t != AANodeInt.nil) {
       AANodeInt previous = t.children[0];
       if (previous != AANodeInt.nil) {
@@ -218,7 +280,8 @@ public class AATree {
   }
 
   /**
-   * Returns the tree obtained by inserting k into root (does not insert a duplicate).
+   * Returns the tree obtained by inserting k into root, or by incrementing the respective node's
+   * occurrence if k is already in the tree.
    *
    * <p>Complexity: O(log(n))
    */
@@ -241,6 +304,13 @@ public class AATree {
     }
 
     if (n.value == k) {
+      ++n.occurrence;
+      ++n.size;
+
+      while (--nsTop >= 0) {
+        ++ns[nsTop].size;
+      }
+
       return root;
     }
 
@@ -248,6 +318,7 @@ public class AATree {
     ns[nsTop - 1].children[ns[nsTop - 1].value > k ? 0 : 1] = nn;
     while (--nsTop >= 0) {
       int nside = nsTop > 0 ? ns[nsTop - 1].children[0] == ns[nsTop] ? 0 : 1 : 0;
+      ++ns[nsTop].nNodes;
       ++ns[nsTop].size;
       ns[nsTop] = aaSkew(ns[nsTop]);
       ns[nsTop] = aaSplit(ns[nsTop]);
@@ -268,9 +339,39 @@ public class AATree {
     return aaInsert(root, k, new AANodeInt[AANodeInt.MAX_NODE_LEVEL + 1]);
   }
 
-  // static AANodeInt aaIntersect(AANodeInt t1, AANodeInt t2) {
-  //   return null;
-  // }
+  /**
+   * Merges t1 and t2. The occurrence of an element is the minimum of its occurrence in t1 and t2.
+   * Destroys the trees contained in t1 and t2.
+   *
+   * <p>Time complexity: O(m+n)
+   *
+   * <p>Space complexity: O(m+n) heap, O(log(m+n)) stack
+   */
+  static AANodeInt aaIntersection(AANodeInt t1, AANodeInt t2) {
+    int it1 = 0;
+    AANodeInt[] t1Inorder = aaInorder(t1);
+    int it2 = 0;
+    AANodeInt[] t2Inorder = aaInorder(t2);
+    int imerged = 0;
+    AANodeInt[] merged = new AANodeInt[t1Inorder.length + t2Inorder.length];
+
+    while (it1 < t1Inorder.length && it2 < t2Inorder.length) {
+      if (t1Inorder[it1].value < t2Inorder[it2].value) {
+        ++it1;
+      } else if (t1Inorder[it1].value > t2Inorder[it2].value) {
+        ++it2;
+      } else {
+        AANodeInt nodeMerged = t1Inorder[it1];
+
+        int t1Occurrence = t1Inorder[it1++].occurrence;
+        int t2Occurrence = t2Inorder[it2++].occurrence;
+        nodeMerged.occurrence = Math.min(t1Occurrence, t2Occurrence);
+        merged[imerged++] = nodeMerged;
+      }
+    }
+
+    return aaTreeFromSortedNodes(merged, 0, imerged);
+  }
 
   /**
    * Creates a leaf (without performing skews/splits).
@@ -286,43 +387,59 @@ public class AATree {
    *
    * <p>Complexity: O(1)
    */
-  static AANodeInt aaMakeNode(AANodeInt left, AANodeInt right, int level, int size, int value) {
-    return new AANodeInt(left, right, level, size, value);
+  static AANodeInt aaMakeNode(
+      AANodeInt left, AANodeInt right, int level, int occurrence, int value) {
+    return new AANodeInt(left, right, level, occurrence, value);
   }
 
+  /**
+   * Returns the rank of value, i.e. 1 if |{e in root | e < value}| = 0, root.size+1 if |{e in root
+   * | e < value}| = root.size, and the sum of the occurrences of {e in root | e < value} + 1
+   * otherwise
+   *
+   * <p>Complexity: O(log(n))
+   */
   static int aaRank(AANodeInt root, int value) {
-    int rank = 0;
+    // if (root == AANodeInt.nil
+    int rank = 1;
     AANodeInt n = root;
     while (n != AANodeInt.nil) {
       if (n.value > value) {
+        if (n.children[0] == AANodeInt.nil) {
+          return rank;
+        }
         n = n.children[0];
       } else if (n.value < value) {
-        rank += n.children[0].size + 1;
+        rank += n.children[0].size + n.occurrence;
+        if (n.children[1] == AANodeInt.nil) {
+          return rank;
+        }
         n = n.children[1];
       } else {
-        return rank + n.children[0].size + 1;
+        return rank + n.children[0].size;
       }
     }
     return rank;
   }
 
-  // static AANodeInt[] aaRemove(AANodeInt root, int fromInclusive, int toExclusive) {
-  //   return AANodeInt.nil;
-  // }
-  //
-  // static AANodeInt[] aaRetain(AANodeInt root, int fromInclusive, int toExclusive) {
-  //   return AANodeInt.nil;
-  // }
+  static int aaOccurrence(AANodeInt root, int k) {
+    return aaFind(root, k).occurrence;
+  }
 
+  /**
+   * Return the node whose rank is i
+   *
+   * <p>Complexity: O(log(n))
+   */
   static AANodeInt aaSelect(AANodeInt root, int i) {
     AANodeInt n = root;
     while (n != AANodeInt.nil) {
-      if (n.children[0].size == i - 1) {
+      if (n.children[0].size < i && i <= n.children[0].size + n.occurrence) {
         return n;
-      } else if (n.children[0].size > i - 1) {
+      } else if (i <= n.children[0].size) {
         n = n.children[0];
       } else {
-        i -= n.children[0].size + 1;
+        i -= n.children[0].size + n.occurrence;
         n = n.children[1];
       }
     }
@@ -340,8 +457,10 @@ public class AATree {
       AANodeInt nodeA = nodeY.children[0].children[0];
       AANodeInt nodeB = nodeY.children[0].children[1];
       AANodeInt nodeC = nodeY.children[1];
-      nodeX.size += nodeC.size + 1;
-      nodeY.size -= nodeA.size + 1;
+      nodeX.nNodes += nodeC.nNodes + 1;
+      nodeY.nNodes -= nodeA.nNodes + 1;
+      nodeX.size += nodeC.size + nodeY.occurrence;
+      nodeY.size -= nodeA.size + nodeX.occurrence;
       nodeY.children[0].children[1] = nodeY;
       nodeY.children[0] = nodeB;
       return nodeX;
@@ -367,8 +486,10 @@ public class AATree {
       AANodeInt nodeB = nodeY.children[0];
       AANodeInt nodeC = nodeZ.children[0];
       AANodeInt nodeD = nodeZ.children[1];
-      nodeX.size -= nodeC.size + nodeD.size + 2;
-      nodeY.size += nodeA.size + 1;
+      nodeX.nNodes -= nodeC.nNodes + nodeD.nNodes + 2;
+      nodeY.nNodes += nodeA.nNodes + 1;
+      nodeX.size -= nodeC.size + nodeD.size + nodeY.occurrence + nodeZ.occurrence;
+      nodeY.size += nodeA.size + nodeX.occurrence;
       nodeX.children[1] = nodeB;
       nodeY.children[0] = nodeX;
       ++nodeY.level;
@@ -378,23 +499,90 @@ public class AATree {
     }
   }
 
-  // static AANodeInt aaUnion(AANodeInt t1, AANodeInt t2) {
-  //   int tsTop = 0;
-  //   AANodeInt[][] ts = new AANodeInt[2 * (AANodeInt.MAX_NODE_LEVEL + 1)][2];
-  //   do {
-  //     if (
-  //     AANodeInt[] t21t22 = jsSplit(t2, t1.value);
-  //     ts[tsTop + 1][0] = t1.children[0];
-  //     ts[tsTop + 1][1] = t11t12[0];
-  //     ts[tsTop][0] = t1.children[1];
-  //     ts[tsTop][1] = t11t12[1];
-  //     tsTop += 2;
-  //     t1 = ts[tsTop-1][0];
-  //     t2 = ts[tsTop-1][1];
-  //     --tsTop;
-  //   } while (tsTop > 0);
-  //   return null;
-  // }
+  /**
+   * Converts a list of nodes that are sorted by values into an AA Tree (assumes that there are no
+   * nodes with duplicate values).
+   *
+   * <p>Time complexity: O(n)
+   *
+   * <p>Space complexity: O(n) heap, O(log(n)) stack
+   */
+  static AANodeInt aaTreeFromSortedNodes(AANodeInt[] nodes, int from, int to) {
+    if (to - from == 0) {
+      return AANodeInt.nil;
+    } else if (to - from == 1) {
+      nodes[from].children[0] = AANodeInt.nil;
+      nodes[from].children[1] = AANodeInt.nil;
+      nodes[from].level = 1;
+      nodes[from].nNodes = 1;
+      nodes[from].size = nodes[from].occurrence;
+      return nodes[from];
+    }
+
+    int mid = from + (to - from - 1) / 2;
+    nodes[mid].children[0] = mid == from ? AANodeInt.nil : aaTreeFromSortedNodes(nodes, from, mid);
+    nodes[mid].children[1] = aaTreeFromSortedNodes(nodes, mid + 1, to);
+    nodes[mid].level =
+        nodes[mid].children[1].level
+            + (nodes[mid].children[0].level == nodes[mid].children[1].level ? 1 : 0);
+    nodes[mid].nNodes = nodes[mid].children[0].nNodes + nodes[mid].children[1].nNodes + 1;
+    nodes[mid].size =
+        nodes[mid].children[0].size + nodes[mid].children[1].size + nodes[mid].occurrence;
+    return nodes[mid];
+  }
+
+  /**
+   * Creates an AA Tree with the provided values.
+   *
+   * <p>Time complexity: O(n * log(n))
+   *
+   * <p>Space complexity: O(n) heap
+   */
+  static AANodeInt aaTreeFromUnsortedValues(int... values) {
+    AANodeInt root = AANodeInt.nil;
+    AANodeInt[] ns = new AANodeInt[AANodeInt.MAX_NODE_LEVEL + 1];
+    for (int value : values) {
+      root = aaInsert(root, value, ns);
+    }
+    return root;
+  }
+
+  /**
+   * Merges t1 and t2. The occurrence of an element is the maximum of its occurrence in t1 and t2.
+   * Destroys the trees contained in t1 and t2.
+   *
+   * <p>Time complexity: O(m+n)
+   *
+   * <p>Space complexity: O(m+n) heap, O(log(m+n)) stack
+   */
+  static AANodeInt aaUnion(AANodeInt t1, AANodeInt t2) {
+    int it1 = 0;
+    AANodeInt[] t1Inorder = aaInorder(t1);
+    int it2 = 0;
+    AANodeInt[] t2Inorder = aaInorder(t2);
+    int imerged = 0;
+    AANodeInt[] merged = new AANodeInt[t1Inorder.length + t2Inorder.length];
+
+    while (it1 + it2 < t1Inorder.length + t2Inorder.length) {
+      if (it2 == t2Inorder.length
+          || (it1 < t1Inorder.length && t1Inorder[it1].value < t2Inorder[it2].value)) {
+        merged[imerged++] = t1Inorder[it1++];
+      } else if (it1 == t1Inorder.length
+          || (it2 < t2Inorder.length && t1Inorder[it1].value > t2Inorder[it2].value)) {
+        merged[imerged++] = t2Inorder[it2++];
+      } else {
+        AANodeInt nodeMerged = t1Inorder[it1];
+
+        int t1Occurrence = t1Inorder[it1++].occurrence;
+        int t2Occurrence = t2Inorder[it2++].occurrence;
+
+        nodeMerged.occurrence = Math.max(t1Occurrence, t2Occurrence);
+        merged[imerged++] = nodeMerged;
+      }
+    }
+
+    return aaTreeFromSortedNodes(merged, 0, imerged);
+  }
 
   // static int[] toPreorder(AANodeInt root) {
   //   int[] values = new int[root.size];

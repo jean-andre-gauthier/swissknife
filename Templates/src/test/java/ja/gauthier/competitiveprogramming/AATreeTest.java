@@ -19,23 +19,311 @@ import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Enclosed.class)
 public class AATreeTest {
-  /* @Test */
-  /* public void increasingInsertionTest() { */
-  /*   AANodeInt tree = AANodeInt.nil; */
-  /*   assertThat(contains(tree, 0), is(false)); */
-  /*   assertThat(occurrence(tree, 0), is(0)); */
-  /*   assertThat(contains(tree, 1), is(false)); */
-  /*   assertThat(occurrence(tree, 1), is(0)); */
-  /*   for (int i = 0; i < 31; ++i) { */
-  /*     tree = insert(tree, i); */
-  /*     for (int j = 0; j <= i; ++j) { */
-  /*       assertThat(contains(tree, j), is(true)); */
-  /*       assertThat(occurrence(tree, j), is(1)); */
-  /*     } */
-  /*     assertThat(contains(tree, i + 1), is(false)); */
-  /*     assertThat(occurrence(tree, i + 1), is(0)); */
-  /*   } */
-  /* } */
+  @RunWith(Parameterized.class)
+  public static class DifferenceIntersectionUnionTest {
+    @Parameters
+    public static Collection<Object[]> parameters() {
+      return Arrays.asList(
+          new Object[][] {
+            {
+              new int[] {},
+              new int[] {},
+              new int[] {},
+              new int[] {},
+              new int[] {},
+              new int[] {},
+              new int[] {},
+              new int[] {},
+            },
+            {
+              new int[] {0},
+              new int[] {},
+              new int[] {0},
+              new int[] {1},
+              new int[] {},
+              new int[] {},
+              new int[] {0},
+              new int[] {1}
+            },
+            {
+              new int[] {},
+              new int[] {0},
+              new int[] {},
+              new int[] {},
+              new int[] {},
+              new int[] {},
+              new int[] {0},
+              new int[] {1}
+            },
+            {
+              new int[] {0},
+              new int[] {0},
+              new int[] {},
+              new int[] {},
+              new int[] {0},
+              new int[] {1},
+              new int[] {0},
+              new int[] {1}
+            },
+            {
+              new int[] {0},
+              new int[] {1},
+              new int[] {0},
+              new int[] {1},
+              new int[] {},
+              new int[] {},
+              new int[] {0, 1},
+              new int[] {1, 1}
+            },
+            {
+              new int[] {1},
+              new int[] {0},
+              new int[] {1},
+              new int[] {1},
+              new int[] {},
+              new int[] {},
+              new int[] {0, 1},
+              new int[] {1, 1}
+            },
+            {
+              new int[] {0, 0},
+              new int[] {},
+              new int[] {0},
+              new int[] {2},
+              new int[] {},
+              new int[] {},
+              new int[] {0},
+              new int[] {2}
+            },
+            {
+              new int[] {},
+              new int[] {0, 0},
+              new int[] {},
+              new int[] {},
+              new int[] {},
+              new int[] {},
+              new int[] {0},
+              new int[] {2}
+            },
+            {
+              new int[] {0, 0},
+              new int[] {0},
+              new int[] {0},
+              new int[] {1},
+              new int[] {0},
+              new int[] {1},
+              new int[] {0},
+              new int[] {2}
+            },
+            {
+              new int[] {0},
+              new int[] {0, 0},
+              new int[] {},
+              new int[] {},
+              new int[] {0},
+              new int[] {1},
+              new int[] {0},
+              new int[] {2}
+            },
+            {
+              new int[] {0, 0},
+              new int[] {0, 0},
+              new int[] {},
+              new int[] {},
+              new int[] {0},
+              new int[] {2},
+              new int[] {0},
+              new int[] {2}
+            },
+            {
+              new int[] {0, 0},
+              new int[] {1},
+              new int[] {0},
+              new int[] {2},
+              new int[] {},
+              new int[] {},
+              new int[] {0, 1},
+              new int[] {2, 1}
+            },
+            {
+              new int[] {1},
+              new int[] {0, 0},
+              new int[] {1},
+              new int[] {1},
+              new int[] {},
+              new int[] {},
+              new int[] {0, 1},
+              new int[] {2, 1}
+            },
+            {
+              new int[] {0, 2},
+              new int[] {1},
+              new int[] {0, 2},
+              new int[] {1, 1},
+              new int[] {},
+              new int[] {},
+              new int[] {0, 1, 2},
+              new int[] {1, 1, 1}
+            },
+            {
+              new int[] {1},
+              new int[] {0, 2},
+              new int[] {1},
+              new int[] {1},
+              new int[] {},
+              new int[] {},
+              new int[] {0, 1, 2},
+              new int[] {1, 1, 1}
+            },
+            {
+              new int[] {0, 1},
+              new int[] {1},
+              new int[] {0},
+              new int[] {1},
+              new int[] {1},
+              new int[] {1},
+              new int[] {0, 1},
+              new int[] {1, 1}
+            },
+            {
+              new int[] {1, 0},
+              new int[] {1},
+              new int[] {0},
+              new int[] {1},
+              new int[] {1},
+              new int[] {1},
+              new int[] {0, 1},
+              new int[] {1, 1}
+            },
+            {
+              new int[] {1, 1},
+              new int[] {0},
+              new int[] {1},
+              new int[] {2},
+              new int[] {},
+              new int[] {},
+              new int[] {0, 1},
+              new int[] {1, 2}
+            },
+            {
+              new int[] {0, 1},
+              new int[] {0, 1},
+              new int[] {},
+              new int[] {},
+              new int[] {0, 1},
+              new int[] {1, 1},
+              new int[] {0, 1},
+              new int[] {1, 1}
+            },
+            {
+              new int[] {0, 0},
+              new int[] {1, 1},
+              new int[] {0},
+              new int[] {2},
+              new int[] {},
+              new int[] {},
+              new int[] {0, 1},
+              new int[] {2, 2}
+            },
+            {
+              new int[] {0, 1, 1, 1, 2, 2},
+              new int[] {0, 1, 1, 2, 2, 2},
+              new int[] {1},
+              new int[] {1},
+              new int[] {0, 1, 2},
+              new int[] {1, 2, 2},
+              new int[] {0, 1, 2},
+              new int[] {1, 3, 3}
+            },
+            {
+              new int[] {0, 1, 1, 2, 2, 2},
+              new int[] {0, 1, 1, 1, 2, 2},
+              new int[] {2},
+              new int[] {1},
+              new int[] {0, 1, 2},
+              new int[] {1, 2, 2},
+              new int[] {0, 1, 2},
+              new int[] {1, 3, 3}
+            },
+            {
+              new int[] {0, 0, 1, 1, 1, 2, 3, 3, 4},
+              new int[] {1, 1, 1, 1, 2, 3},
+              new int[] {0, 3, 4},
+              new int[] {2, 1, 1},
+              new int[] {1, 2, 3},
+              new int[] {3, 1, 1},
+              new int[] {0, 1, 2, 3, 4},
+              new int[] {2, 4, 1, 2, 1}
+            },
+            {
+              new int[] {1, 1, 1, 1, 2, 3},
+              new int[] {0, 0, 1, 1, 1, 2, 3, 3, 4},
+              new int[] {1},
+              new int[] {1},
+              new int[] {1, 2, 3},
+              new int[] {3, 1, 1},
+              new int[] {0, 1, 2, 3, 4},
+              new int[] {2, 4, 1, 2, 1}
+            },
+          });
+    }
+
+    @Parameter(0)
+    public static int[] t1Values;
+
+    @Parameter(1)
+    public static int[] t2Values;
+
+    @Parameter(2)
+    public static int[] expectedDifference;
+
+    @Parameter(3)
+    public static int[] expectedDifferenceOccurrences;
+
+    @Parameter(4)
+    public static int[] expectedIntersection;
+
+    @Parameter(5)
+    public static int[] expectedIntersectionOccurrences;
+
+    @Parameter(6)
+    public static int[] expectedUnion;
+
+    @Parameter(7)
+    public static int[] expectedUnionOccurrences;
+
+    @Test
+    public void testDifferenceIntersectionUnion() {
+      AANodeInt[] actualDifference =
+          aaInorder(
+              aaDifference(aaTreeFromUnsortedValues(t1Values), aaTreeFromUnsortedValues(t2Values)));
+      assertThat(actualDifference.length, is(expectedDifference.length));
+      for (int i = 0; i < expectedDifference.length; ++i) {
+        assertThat(actualDifference[i].value, is(expectedDifference[i]));
+        assertThat(actualDifference[i].occurrence, is(expectedDifferenceOccurrences[i]));
+      }
+
+      AANodeInt[] actualIntersection =
+          aaInorder(
+              aaIntersection(
+                  aaTreeFromUnsortedValues(t1Values), aaTreeFromUnsortedValues(t2Values)));
+      assertThat(actualIntersection.length, is(expectedIntersection.length));
+      for (int i = 0; i < expectedIntersection.length; ++i) {
+        assertThat(actualIntersection[i].value, is(expectedIntersection[i]));
+        assertThat(actualIntersection[i].occurrence, is(expectedIntersectionOccurrences[i]));
+      }
+
+      AANodeInt[] actualUnion =
+          aaInorder(
+              aaUnion(aaTreeFromUnsortedValues(t1Values), aaTreeFromUnsortedValues(t2Values)));
+      assertThat(actualUnion.length, is(expectedUnion.length));
+      for (int i = 0; i < expectedUnion.length; ++i) {
+        assertThat(actualUnion[i].value, is(expectedUnion[i]));
+        assertThat(actualUnion[i].occurrence, is(expectedUnionOccurrences[i]));
+      }
+    }
+  }
+
   public static class InorderTests {
     @Test
     public void inorder1Test() {
@@ -46,14 +334,14 @@ public class AATreeTest {
     @Test
     public void inorder2Test() {
       AANodeInt node0 = aaMakeLeaf(0);
-      AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 2, 1);
+      AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 1, 1);
       assertIncreasingValues(aaInorder(node1), 0, 2);
     }
 
     @Test
     public void inorder3Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 2, 0);
+      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 1, 0);
       assertIncreasingValues(aaInorder(node0), 0, 2);
     }
 
@@ -61,39 +349,39 @@ public class AATreeTest {
     public void inorder4Test() {
       AANodeInt node0 = aaMakeLeaf(0);
       AANodeInt node2 = aaMakeLeaf(2);
-      AANodeInt node1 = aaMakeNode(node0, node2, 0, 3, 1);
+      AANodeInt node1 = aaMakeNode(node0, node2, 0, 1, 1);
       assertIncreasingValues(aaInorder(node1), 0, 3);
     }
 
     @Test
     public void inorder5Test() {
       AANodeInt node0 = aaMakeLeaf(0);
-      AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 2, 1);
-      AANodeInt node2 = aaMakeNode(node1, AANodeInt.nil, 0, 3, 2);
+      AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 1, 1);
+      AANodeInt node2 = aaMakeNode(node1, AANodeInt.nil, 0, 1, 2);
       assertIncreasingValues(aaInorder(node2), 0, 3);
     }
 
     @Test
     public void inorder6Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 2, 0);
-      AANodeInt node2 = aaMakeNode(node0, AANodeInt.nil, 0, 3, 2);
+      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 1, 0);
+      AANodeInt node2 = aaMakeNode(node0, AANodeInt.nil, 0, 1, 2);
       assertIncreasingValues(aaInorder(node2), 0, 3);
     }
 
     @Test
     public void inorder7Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node2 = aaMakeNode(node1, AANodeInt.nil, 0, 2, 2);
-      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node2, 0, 3, 0);
+      AANodeInt node2 = aaMakeNode(node1, AANodeInt.nil, 0, 1, 2);
+      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node2, 0, 1, 0);
       assertIncreasingValues(aaInorder(node0), 0, 3);
     }
 
     @Test
     public void inorder8Test() {
       AANodeInt node2 = aaMakeLeaf(2);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 0, 2, 1);
-      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 3, 0);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 0, 1, 1);
+      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 1, 0);
       assertIncreasingValues(aaInorder(node0), 0, 3);
     }
 
@@ -101,8 +389,8 @@ public class AATreeTest {
     public void inorder9Test() {
       AANodeInt node0 = aaMakeLeaf(0);
       AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 2, 1);
-      AANodeInt node2 = aaMakeNode(node1, node3, 0, 4, 2);
+      AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 1, 1);
+      AANodeInt node2 = aaMakeNode(node1, node3, 0, 1, 2);
       assertIncreasingValues(aaInorder(node2), 0, 4);
     }
 
@@ -110,8 +398,8 @@ public class AATreeTest {
     public void inorder10Test() {
       AANodeInt node1 = aaMakeLeaf(1);
       AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 2, 0);
-      AANodeInt node2 = aaMakeNode(node0, node3, 0, 4, 2);
+      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 1, 0);
+      AANodeInt node2 = aaMakeNode(node0, node3, 0, 1, 2);
       assertIncreasingValues(aaInorder(node2), 0, 4);
     }
 
@@ -119,8 +407,8 @@ public class AATreeTest {
     public void inorder11Test() {
       AANodeInt node0 = aaMakeLeaf(0);
       AANodeInt node2 = aaMakeLeaf(2);
-      AANodeInt node3 = aaMakeNode(node2, AANodeInt.nil, 0, 2, 3);
-      AANodeInt node1 = aaMakeNode(node0, node3, 0, 4, 1);
+      AANodeInt node3 = aaMakeNode(node2, AANodeInt.nil, 0, 1, 3);
+      AANodeInt node1 = aaMakeNode(node0, node3, 0, 1, 1);
       assertIncreasingValues(aaInorder(node1), 0, 4);
     }
 
@@ -128,8 +416,8 @@ public class AATreeTest {
     public void inorder12Test() {
       AANodeInt node0 = aaMakeLeaf(0);
       AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node2 = aaMakeNode(AANodeInt.nil, node3, 0, 2, 2);
-      AANodeInt node1 = aaMakeNode(node0, node2, 0, 4, 1);
+      AANodeInt node2 = aaMakeNode(AANodeInt.nil, node3, 0, 1, 2);
+      AANodeInt node1 = aaMakeNode(node0, node2, 0, 1, 1);
       assertIncreasingValues(aaInorder(node1), 0, 4);
     }
 
@@ -138,8 +426,8 @@ public class AATreeTest {
       AANodeInt node0 = aaMakeLeaf(0);
       AANodeInt node2 = aaMakeLeaf(2);
       AANodeInt node4 = aaMakeLeaf(4);
-      AANodeInt node1 = aaMakeNode(node0, node2, 0, 3, 1);
-      AANodeInt node3 = aaMakeNode(node1, node4, 0, 5, 3);
+      AANodeInt node1 = aaMakeNode(node0, node2, 0, 1, 1);
+      AANodeInt node3 = aaMakeNode(node1, node4, 0, 1, 3);
       assertIncreasingValues(aaInorder(node3), 0, 5);
     }
 
@@ -147,9 +435,9 @@ public class AATreeTest {
     public void inorder14Test() {
       AANodeInt node0 = aaMakeLeaf(0);
       AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 2, 1);
-      AANodeInt node4 = aaMakeNode(node3, AANodeInt.nil, 0, 2, 4);
-      AANodeInt node2 = aaMakeNode(node1, node4, 0, 5, 2);
+      AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 1, 1);
+      AANodeInt node4 = aaMakeNode(node3, AANodeInt.nil, 0, 1, 4);
+      AANodeInt node2 = aaMakeNode(node1, node4, 0, 1, 2);
       assertIncreasingValues(aaInorder(node2), 0, 5);
     }
 
@@ -157,9 +445,9 @@ public class AATreeTest {
     public void inorder15Test() {
       AANodeInt node0 = aaMakeLeaf(0);
       AANodeInt node4 = aaMakeLeaf(4);
-      AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 2, 1);
-      AANodeInt node3 = aaMakeNode(AANodeInt.nil, node4, 0, 2, 3);
-      AANodeInt node2 = aaMakeNode(node1, node3, 0, 5, 2);
+      AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 1, 1);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, node4, 0, 1, 3);
+      AANodeInt node2 = aaMakeNode(node1, node3, 0, 1, 2);
       assertIncreasingValues(aaInorder(node2), 0, 5);
     }
 
@@ -167,9 +455,9 @@ public class AATreeTest {
     public void inorder16Test() {
       AANodeInt node1 = aaMakeLeaf(1);
       AANodeInt node4 = aaMakeLeaf(4);
-      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 2, 0);
-      AANodeInt node3 = aaMakeNode(AANodeInt.nil, node4, 0, 2, 3);
-      AANodeInt node2 = aaMakeNode(node0, node3, 0, 5, 2);
+      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 1, 0);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, node4, 0, 1, 3);
+      AANodeInt node2 = aaMakeNode(node0, node3, 0, 1, 2);
       assertIncreasingValues(aaInorder(node2), 0, 5);
     }
 
@@ -178,8 +466,8 @@ public class AATreeTest {
       AANodeInt node0 = aaMakeLeaf(0);
       AANodeInt node2 = aaMakeLeaf(2);
       AANodeInt node4 = aaMakeLeaf(4);
-      AANodeInt node3 = aaMakeNode(node2, node4, 0, 3, 3);
-      AANodeInt node1 = aaMakeNode(node0, node3, 0, 5, 1);
+      AANodeInt node3 = aaMakeNode(node2, node4, 0, 1, 3);
+      AANodeInt node1 = aaMakeNode(node0, node3, 0, 1, 1);
       assertIncreasingValues(aaInorder(node1), 0, 5);
     }
 
@@ -188,9 +476,9 @@ public class AATreeTest {
       AANodeInt node0 = aaMakeLeaf(0);
       AANodeInt node2 = aaMakeLeaf(2);
       AANodeInt node4 = aaMakeLeaf(4);
-      AANodeInt node1 = aaMakeNode(node0, node2, 0, 3, 1);
-      AANodeInt node5 = aaMakeNode(node4, AANodeInt.nil, 0, 2, 5);
-      AANodeInt node3 = aaMakeNode(node1, node5, 0, 6, 3);
+      AANodeInt node1 = aaMakeNode(node0, node2, 0, 1, 1);
+      AANodeInt node5 = aaMakeNode(node4, AANodeInt.nil, 0, 1, 5);
+      AANodeInt node3 = aaMakeNode(node1, node5, 0, 1, 3);
       assertIncreasingValues(aaInorder(node3), 0, 6);
     }
 
@@ -199,9 +487,9 @@ public class AATreeTest {
       AANodeInt node0 = aaMakeLeaf(0);
       AANodeInt node2 = aaMakeLeaf(2);
       AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node1 = aaMakeNode(node0, node2, 0, 3, 1);
-      AANodeInt node4 = aaMakeNode(AANodeInt.nil, node5, 0, 2, 4);
-      AANodeInt node3 = aaMakeNode(node1, node4, 0, 6, 3);
+      AANodeInt node1 = aaMakeNode(node0, node2, 0, 1, 1);
+      AANodeInt node4 = aaMakeNode(AANodeInt.nil, node5, 0, 1, 4);
+      AANodeInt node3 = aaMakeNode(node1, node4, 0, 1, 3);
       assertIncreasingValues(aaInorder(node3), 0, 6);
     }
 
@@ -210,9 +498,9 @@ public class AATreeTest {
       AANodeInt node0 = aaMakeLeaf(0);
       AANodeInt node3 = aaMakeLeaf(3);
       AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 2, 1);
-      AANodeInt node4 = aaMakeNode(node3, node5, 0, 3, 4);
-      AANodeInt node2 = aaMakeNode(node1, node4, 0, 6, 2);
+      AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 1, 1);
+      AANodeInt node4 = aaMakeNode(node3, node5, 0, 1, 4);
+      AANodeInt node2 = aaMakeNode(node1, node4, 0, 1, 2);
       assertIncreasingValues(aaInorder(node2), 0, 6);
     }
 
@@ -221,9 +509,9 @@ public class AATreeTest {
       AANodeInt node1 = aaMakeLeaf(1);
       AANodeInt node3 = aaMakeLeaf(3);
       AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 2, 0);
-      AANodeInt node4 = aaMakeNode(node3, node5, 0, 3, 4);
-      AANodeInt node2 = aaMakeNode(node0, node4, 0, 6, 2);
+      AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 1, 0);
+      AANodeInt node4 = aaMakeNode(node3, node5, 0, 1, 4);
+      AANodeInt node2 = aaMakeNode(node0, node4, 0, 1, 2);
       assertIncreasingValues(aaInorder(node2), 0, 6);
     }
 
@@ -233,9 +521,9 @@ public class AATreeTest {
       AANodeInt node2 = aaMakeLeaf(2);
       AANodeInt node4 = aaMakeLeaf(4);
       AANodeInt node6 = aaMakeLeaf(6);
-      AANodeInt node1 = aaMakeNode(node0, node2, 0, 3, 1);
-      AANodeInt node5 = aaMakeNode(node4, node6, 0, 3, 5);
-      AANodeInt node3 = aaMakeNode(node1, node5, 0, 7, 3);
+      AANodeInt node1 = aaMakeNode(node0, node2, 0, 1, 1);
+      AANodeInt node5 = aaMakeNode(node4, node6, 0, 1, 5);
+      AANodeInt node3 = aaMakeNode(node1, node5, 0, 1, 3);
       assertIncreasingValues(aaInorder(node3), 0, 7);
     }
   }
@@ -290,39 +578,111 @@ public class AATreeTest {
     @Parameter public static int size;
 
     @Test
-    public void test() {
+    public void duplicatesTest() {
       AANodeInt root = AANodeInt.nil;
       AANodeInt[] ns = new AANodeInt[AANodeInt.MAX_NODE_LEVEL];
-      for (int i = 0; i < size; ++i) {
+      for (int i = 1; i <= size; ++i) {
+        for (int j = 1; j < i; ++j) {
+          assertThat(aaContains(root, j), is(true));
+          assertThat(aaOccurrence(root, j), is(j));
+          int rank = j * (j - 1) / 2 + 1;
+          assertThat(aaRank(root, j), is(rank));
+          AANodeInt selectedNode = aaSelect(root, rank);
+          assertThat(selectedNode.level, is(greaterThan(0)));
+          assertThat(selectedNode.nNodes, is(greaterThan(0)));
+          assertThat(selectedNode.occurrence, is(j));
+          assertThat(selectedNode.size, is(greaterThan(0)));
+          assertThat(selectedNode.value, is(j));
+        }
+        for (int j = i; j <= size; ++j) {
+          assertThat(aaContains(root, j), is(i > 1));
+          assertThat(aaOccurrence(root, j), is(i - 1));
+          root = aaInsert(root, j, ns);
+          assertThat(aaContains(root, j), is(true));
+          assertThat(aaOccurrence(root, j), is(i));
+          int rank = i * (i + 1) / 2 + (j - i - 1) * i + 1;
+          assertThat(aaRank(root, j), is(rank));
+          AANodeInt selectedNode = aaSelect(root, rank);
+          assertThat(selectedNode.level, is(greaterThan(0)));
+          assertThat(selectedNode.nNodes, is(greaterThan(0)));
+          assertThat(selectedNode.occurrence, is(i));
+          assertThat(selectedNode.size, is(greaterThan(0)));
+          assertThat(selectedNode.value, is(j));
+        }
+      }
+      for (int i = size; i > 0; --i) {
+        for (int j = size; j >= i; --j) {
+          assertThat(aaContains(root, j), is(true));
+          assertThat(aaOccurrence(root, j), is(i));
+          root = aaDelete(root, j, ns);
+          assertThat(aaContains(root, j), is(i > 1));
+          assertThat(aaOccurrence(root, j), is(i - 1));
+          int rank = i * (i - 1) / 2 + (j - i) * i + 1;
+          assertThat(aaRank(root, j), is(rank));
+          if (i > 1) {
+            AANodeInt selectedNode = aaSelect(root, rank);
+            assertThat(selectedNode.level, is(greaterThan(0)));
+            assertThat(selectedNode.nNodes, is(greaterThan(0)));
+            assertThat(selectedNode.occurrence, is(i - 1));
+            assertThat(selectedNode.size, is(greaterThan(0)));
+            assertThat(selectedNode.value, is(j));
+          }
+        }
+        for (int j = i - 1; j >= 1; --j) {
+          assertThat(aaContains(root, j), is(true));
+          assertThat(aaOccurrence(root, j), is(j));
+          int rank = j * (j - 1) / 2 + 1;
+          assertThat(aaRank(root, j), is(rank));
+          AANodeInt selectedNode = aaSelect(root, rank);
+          assertThat(selectedNode.level, is(greaterThan(0)));
+          assertThat(selectedNode.nNodes, is(greaterThan(0)));
+          assertThat(selectedNode.occurrence, is(j));
+          assertThat(selectedNode.size, is(greaterThan(0)));
+          assertThat(selectedNode.value, is(j));
+        }
+      }
+    }
+
+    @Test
+    public void noDuplicatesTest() {
+      AANodeInt root = AANodeInt.nil;
+      AANodeInt[] ns = new AANodeInt[AANodeInt.MAX_NODE_LEVEL];
+      for (int i = 1; i <= size; ++i) {
         assertThat(aaContains(root, i), is(false));
-        assertThat(root.size, is(i));
+        assertThat(aaOccurrence(root, i), is(0));
+        assertThat(root.size, is(i - 1));
         root = aaInsert(root, i, ns);
         assertThat(aaContains(root, i), is(true));
-        assertThat(root.size, is(i + 1));
-        assertThat(aaRank(root, i), is(i + 1));
-        assertThat(aaSelect(root, i + 1).value, is(i));
+        assertThat(aaOccurrence(root, i), is(1));
+        assertThat(root.size, is(i));
+        assertThat(aaRank(root, i), is(i));
+        assertThat(aaSelect(root, i).value, is(i));
         assertAAInvariants(root);
       }
-      for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < i; ++j) {
+      for (int i = 1; i <= size; ++i) {
+        for (int j = 1; j < i; ++j) {
           assertThat(aaContains(root, j), is(false));
+          assertThat(aaOccurrence(root, j), is(0));
         }
-        for (int j = i; j < size; ++j) {
+        for (int j = i; j <= size; ++j) {
           assertThat(aaContains(root, j), is(true));
+          assertThat(aaOccurrence(root, j), is(1));
           assertThat(aaRank(root, j), is(j - i + 1));
           assertThat(aaSelect(root, j - i + 1).value, is(j));
         }
-        assertThat(root.size, is(size - i));
+        assertThat(root.size, is(size - i + 1));
         root = aaDelete(root, i, ns);
-        for (int j = 0; j <= i; ++j) {
+        for (int j = 1; j <= i; ++j) {
           assertThat(aaContains(root, j), is(false));
+          assertThat(aaOccurrence(root, j), is(0));
         }
-        for (int j = i + 1; j < size; ++j) {
+        for (int j = i + 1; j <= size; ++j) {
           assertThat(aaContains(root, j), is(true));
+          assertThat(aaOccurrence(root, j), is(1));
           assertThat(aaRank(root, j), is(j - i));
           assertThat(aaSelect(root, j - i).value, is(j));
         }
-        assertThat(root.size, is(size - i - 1));
+        assertThat(root.size, is(size - i));
         assertAAInvariants(root);
       }
     }
@@ -348,8 +708,130 @@ public class AATreeTest {
       assertNodeLeaf(leafLeft, 1);
       AANodeInt leafRight = aaMakeLeaf(4);
       assertNodeLeaf(leafRight, 4);
-      AANodeInt root = aaMakeNode(leafLeft, leafRight, 2, 3, 5);
-      assertNode(root, leafLeft, leafRight, 2, 3, 5);
+      AANodeInt root = aaMakeNode(leafLeft, leafRight, 2, 6, 5);
+      assertNode(root, leafLeft, leafRight, 2, 3, 6, 8, 5);
+    }
+  }
+
+  @RunWith(Parameterized.class)
+  public static class RankSelectTest {
+    @Parameters
+    public static Collection<Object[]> parameters() {
+      return Arrays.asList(
+          new Object[][] {
+            {new int[] {}, new int[] {1}, new int[] {1}, new boolean[] {false}},
+            {
+              new int[] {0},
+              new int[] {-1, 0, 1},
+              new int[] {1, 1, 2},
+              new boolean[] {false, true, false}
+            },
+            {
+              new int[] {0, 1},
+              new int[] {-1, 0, 1, 2},
+              new int[] {1, 1, 2, 3},
+              new boolean[] {false, true, true, false}
+            },
+            {
+              new int[] {1, 0},
+              new int[] {-1, 0, 1, 2},
+              new int[] {1, 1, 2, 3},
+              new boolean[] {false, true, true, false}
+            },
+            {
+              new int[] {0, 2},
+              new int[] {-1, 0, 1, 2, 3},
+              new int[] {1, 1, 2, 2, 3},
+              new boolean[] {false, true, false, true, false}
+            },
+            {
+              new int[] {2, 0},
+              new int[] {-1, 0, 1, 2, 3},
+              new int[] {1, 1, 2, 2, 3},
+              new boolean[] {false, true, false, true, false}
+            },
+            {
+              new int[] {0, 1, 2},
+              new int[] {-1, 0, 1, 2, 3},
+              new int[] {1, 1, 2, 3, 4},
+              new boolean[] {false, true, true, true, false}
+            },
+            {
+              new int[] {2, 1, 0},
+              new int[] {-1, 0, 1, 2, 3},
+              new int[] {1, 1, 2, 3, 4},
+              new boolean[] {false, true, true, true, false}
+            },
+            {
+              new int[] {0, 0},
+              new int[] {-1, 0, 1},
+              new int[] {1, 1, 3},
+              new boolean[] {false, true, false}
+            },
+            {
+              new int[] {0, 0, 1, 1, 1},
+              new int[] {-1, 0, 1, 2},
+              new int[] {1, 1, 3, 6},
+              new boolean[] {false, true, true, false}
+            },
+            {
+              new int[] {1, 0, 1, 0, 1},
+              new int[] {-1, 0, 1, 2},
+              new int[] {1, 1, 3, 6},
+              new boolean[] {false, true, true, false}
+            },
+            {
+              new int[] {0, 0, 2, 2, 2},
+              new int[] {-1, 0, 1, 2, 3},
+              new int[] {1, 1, 3, 3, 6},
+              new boolean[] {false, true, false, true, false}
+            },
+            {
+              new int[] {2, 0, 2, 0, 2},
+              new int[] {-1, 0, 1, 2, 3},
+              new int[] {1, 1, 3, 3, 6},
+              new boolean[] {false, true, false, true, false}
+            },
+            {
+              new int[] {0, 0, 1, 2, 2, 2},
+              new int[] {-1, 0, 1, 2, 3},
+              new int[] {1, 1, 3, 4, 7},
+              new boolean[] {false, true, true, true, false}
+            },
+            {
+              new int[] {2, 0, 2, 1, 2, 0},
+              new int[] {-1, 0, 1, 2, 3},
+              new int[] {1, 1, 3, 4, 7},
+              new boolean[] {false, true, true, true, false}
+            },
+          });
+    }
+
+    @Parameter(0)
+    public static int[] treeValues;
+
+    @Parameter(1)
+    public static int[] testValues;
+
+    @Parameter(2)
+    public static int[] expectedRanks;
+
+    @Parameter(3)
+    public static boolean[] expectedContains;
+
+    @Test
+    public void rankSelectTest() {
+      AANodeInt root = aaTreeFromUnsortedValues(treeValues);
+      for (int i = 0; i < testValues.length && i < expectedRanks.length; ++i) {
+        int rank = aaRank(root, testValues[i]);
+        assertThat(rank, is(expectedRanks[i]));
+        boolean contains = aaContains(root, testValues[i]);
+        assertThat(contains, is(expectedContains[i]));
+        if (contains && treeValues.length > 0) {
+          AANodeInt node = aaSelect(root, expectedRanks[i]);
+          assertThat(node.value, is(testValues[i]));
+        }
+      }
     }
   }
 
@@ -367,18 +849,18 @@ public class AATreeTest {
       AANodeInt node2 = aaMakeNode(node1, AANodeInt.nil, 1, 2, 2);
 
       AANodeInt root = aaSkew(node2);
-      assertNode(root, AANodeInt.nil, node2, 1, 2, 1);
-      assertNodeLeaf(node2, 2);
+      assertNode(root, AANodeInt.nil, node2, 1, 2, 1, 3, 1);
+      assertNode(node2, AANodeInt.nil, AANodeInt.nil, 1, 1, 2, 2, 2);
     }
 
     @Test
     public void skew03Test() {
-      AANodeInt node2 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 1, 2);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 1, 2, 1);
+      AANodeInt node2 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 2, 2);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 1, 1, 1);
 
       AANodeInt root = aaSkew(node1);
-      assertNode(root, AANodeInt.nil, node2, 1, 2, 1);
-      assertNodeLeaf(node2, 2);
+      assertNode(root, AANodeInt.nil, node2, 1, 2, 1, 3, 1);
+      assertNode(node2, AANodeInt.nil, AANodeInt.nil, 1, 1, 2, 2, 2);
     }
 
     @Test
@@ -388,139 +870,139 @@ public class AATreeTest {
       AANodeInt node3 = aaMakeNode(node2, AANodeInt.nil, 2, 3, 3);
 
       AANodeInt root = aaSkew(node3);
-      assertNode(root, node1, node3, 2, 3, 2);
-      assertNodeLeaf(node1, 1);
-      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 2, 1, 3);
+      assertNode(root, node1, node3, 2, 3, 2, 6, 2);
+      assertNode(node1, AANodeInt.nil, AANodeInt.nil, 1, 1, 1, 1, 1);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 2, 1, 3, 3, 3);
     }
 
     @Test
     public void skew05Test() {
-      AANodeInt node2 = aaMakeLeaf(2);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 2, 2, 1);
+      AANodeInt node2 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 2, 2);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 2, 1, 1);
       AANodeInt node3 = aaMakeNode(node1, AANodeInt.nil, 2, 3, 3);
 
       AANodeInt root = aaSkew(node3);
-      assertNode(root, AANodeInt.nil, node3, 2, 3, 1);
-      assertNode(node3, node2, AANodeInt.nil, 2, 2, 3);
-      assertNodeLeaf(node2, 2);
+      assertNode(root, AANodeInt.nil, node3, 2, 3, 1, 6, 1);
+      assertNode(node3, node2, AANodeInt.nil, 2, 2, 3, 5, 3);
+      assertNode(node2, AANodeInt.nil, AANodeInt.nil, 1, 1, 2, 2, 2);
     }
 
     @Test
     public void skew06Test() {
       AANodeInt node1 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 2, 1, 1);
-      AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node2 = aaMakeNode(node1, node3, 2, 3, 2);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 3, 3);
+      AANodeInt node2 = aaMakeNode(node1, node3, 2, 2, 2);
 
       AANodeInt root = aaSkew(node2);
-      assertNode(root, AANodeInt.nil, node2, 2, 3, 1);
-      assertNode(node2, AANodeInt.nil, node3, 2, 2, 2);
-      assertNodeLeaf(node3, 3);
+      assertNode(root, AANodeInt.nil, node2, 2, 3, 1, 6, 1);
+      assertNode(node2, AANodeInt.nil, node3, 2, 2, 2, 5, 2);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 1, 1, 3, 3, 3);
     }
 
     @Test
     public void skew07Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node2 = aaMakeNode(node1, node3, 2, 3, 2);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 3, 3);
+      AANodeInt node2 = aaMakeNode(node1, node3, 2, 2, 2);
       AANodeInt node4 = aaMakeNode(node2, AANodeInt.nil, 2, 4, 4);
 
       AANodeInt root = aaSkew(node4);
-      assertNode(root, node1, node4, 2, 4, 2);
+      assertNode(root, node1, node4, 2, 4, 2, 10, 2);
       assertNodeLeaf(node1, 1);
-      assertNode(node4, node3, AANodeInt.nil, 2, 2, 4);
-      assertNodeLeaf(node3, 3);
+      assertNode(node4, node3, AANodeInt.nil, 2, 2, 4, 7, 4);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 1, 1, 3, 3, 3);
     }
 
     @Test
     public void skew08Test() {
       AANodeInt node1 = aaMakeLeaf(1);
       AANodeInt node2 = aaMakeNode(node1, AANodeInt.nil, 2, 2, 2);
-      AANodeInt node4 = aaMakeLeaf(4);
-      AANodeInt node3 = aaMakeNode(node2, node4, 2, 4, 3);
+      AANodeInt node4 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 4, 4);
+      AANodeInt node3 = aaMakeNode(node2, node4, 2, 3, 3);
 
       AANodeInt root = aaSkew(node3);
-      assertNode(root, node1, node3, 2, 4, 2);
+      assertNode(root, node1, node3, 2, 4, 2, 10, 2);
       assertNodeLeaf(node1, 1);
-      assertNode(node3, AANodeInt.nil, node4, 2, 2, 3);
-      assertNodeLeaf(node4, 4);
+      assertNode(node3, AANodeInt.nil, node4, 2, 2, 3, 7, 3);
+      assertNode(node4, AANodeInt.nil, AANodeInt.nil, 1, 1, 4, 4, 4);
     }
 
     @Test
     public void skew09Test() {
-      AANodeInt node2 = aaMakeLeaf(2);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 2, 2, 1);
-      AANodeInt node4 = aaMakeLeaf(4);
-      AANodeInt node3 = aaMakeNode(node1, node4, 2, 4, 3);
+      AANodeInt node2 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 2, 2);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 2, 1, 1);
+      AANodeInt node4 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 4, 4);
+      AANodeInt node3 = aaMakeNode(node1, node4, 2, 3, 3);
 
       AANodeInt root = aaSkew(node3);
-      assertNode(root, AANodeInt.nil, node3, 2, 4, 1);
-      assertNode(node3, node2, node4, 2, 3, 3);
-      assertNodeLeaf(node2, 2);
-      assertNodeLeaf(node4, 4);
+      assertNode(root, AANodeInt.nil, node3, 2, 4, 1, 10, 1);
+      assertNode(node3, node2, node4, 2, 3, 3, 9, 3);
+      assertNode(node2, AANodeInt.nil, AANodeInt.nil, 1, 1, 2, 2, 2);
+      assertNode(node4, AANodeInt.nil, AANodeInt.nil, 1, 1, 4, 4, 4);
     }
 
     @Test
     public void skew10Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node2 = aaMakeNode(node1, node3, 2, 3, 2);
-      AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node4 = aaMakeNode(node2, node5, 2, 5, 4);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 3, 3);
+      AANodeInt node2 = aaMakeNode(node1, node3, 2, 2, 2);
+      AANodeInt node5 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 5, 5);
+      AANodeInt node4 = aaMakeNode(node2, node5, 2, 4, 4);
 
       AANodeInt root = aaSkew(node4);
-      assertNode(root, node1, node4, 2, 5, 2);
+      assertNode(root, node1, node4, 2, 5, 2, 15, 2);
       assertNodeLeaf(node1, 1);
-      assertNode(node4, node3, node5, 2, 3, 4);
-      assertNodeLeaf(node3, 3);
-      assertNodeLeaf(node5, 5);
+      assertNode(node4, node3, node5, 2, 3, 4, 12, 4);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 1, 1, 3, 3, 3);
+      assertNode(node5, AANodeInt.nil, AANodeInt.nil, 1, 1, 5, 5, 5);
     }
 
     @Test
     public void skew11Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node2 = aaMakeNode(node1, node3, 2, 3, 2);
-      AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node4 = aaMakeNode(node2, node5, 3, 5, 4);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 3, 3);
+      AANodeInt node2 = aaMakeNode(node1, node3, 2, 2, 2);
+      AANodeInt node5 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 5, 5);
+      AANodeInt node4 = aaMakeNode(node2, node5, 3, 4, 4);
 
       AANodeInt root = aaSkew(node4);
-      assertNode(root, node2, node5, 3, 5, 4);
-      assertNode(node2, node1, node3, 2, 3, 2);
+      assertNode(root, node2, node5, 3, 5, 4, 15, 4);
+      assertNode(node2, node1, node3, 2, 3, 2, 6, 2);
       assertNodeLeaf(node1, 1);
-      assertNodeLeaf(node3, 3);
-      assertNodeLeaf(node5, 5);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 1, 1, 3, 3, 3);
+      assertNode(node5, AANodeInt.nil, AANodeInt.nil, 1, 1, 5, 5, 5);
     }
 
     @Test
     public void skew12Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node4 = aaMakeNode(node3, node5, 2, 3, 4);
-      AANodeInt node2 = aaMakeNode(node1, node4, 2, 5, 2);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 3, 3);
+      AANodeInt node5 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 5, 5);
+      AANodeInt node4 = aaMakeNode(node3, node5, 2, 4, 4);
+      AANodeInt node2 = aaMakeNode(node1, node4, 2, 2, 2);
 
       AANodeInt root = aaSkew(node2);
-      assertNode(root, node1, node4, 2, 5, 2);
+      assertNode(root, node1, node4, 2, 5, 2, 15, 2);
       assertNodeLeaf(node1, 1);
-      assertNode(node4, node3, node5, 2, 3, 4);
-      assertNodeLeaf(node3, 3);
-      assertNodeLeaf(node5, 5);
+      assertNode(node4, node3, node5, 2, 3, 4, 12, 4);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 1, 1, 3, 3, 3);
+      assertNode(node5, AANodeInt.nil, AANodeInt.nil, 1, 1, 5, 5, 5);
     }
 
     @Test
     public void skew13Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node4 = aaMakeNode(node3, node5, 2, 3, 4);
-      AANodeInt node2 = aaMakeNode(node1, node4, 3, 5, 2);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 3, 3);
+      AANodeInt node5 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 5, 5);
+      AANodeInt node4 = aaMakeNode(node3, node5, 2, 4, 4);
+      AANodeInt node2 = aaMakeNode(node1, node4, 3, 2, 2);
 
       AANodeInt root = aaSkew(node2);
-      assertNode(root, node1, node4, 3, 5, 2);
+      assertNode(root, node1, node4, 3, 5, 2, 15, 2);
       assertNodeLeaf(node1, 1);
-      assertNode(node4, node3, node5, 2, 3, 4);
-      assertNodeLeaf(node3, 3);
-      assertNodeLeaf(node5, 5);
+      assertNode(node4, node3, node5, 2, 3, 4, 12, 4);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 1, 1, 3, 3, 3);
+      assertNode(node5, AANodeInt.nil, AANodeInt.nil, 1, 1, 5, 5, 5);
     }
   }
 
@@ -538,18 +1020,18 @@ public class AATreeTest {
       AANodeInt node2 = aaMakeNode(node1, AANodeInt.nil, 1, 2, 2);
 
       AANodeInt root = aaSplit(node2);
-      assertNode(root, node1, AANodeInt.nil, 1, 2, 2);
+      assertNode(root, node1, AANodeInt.nil, 1, 2, 2, 3, 2);
       assertNodeLeaf(node1, 1);
     }
 
     @Test
     public void split03Test() {
-      AANodeInt node2 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 1, 2);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 1, 2, 1);
+      AANodeInt node2 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 2, 2);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 1, 1, 1);
 
       AANodeInt root = aaSplit(node1);
-      assertNode(root, AANodeInt.nil, node2, 1, 2, 1);
-      assertNodeLeaf(node2, 2);
+      assertNode(root, AANodeInt.nil, node2, 1, 2, 1, 3, 1);
+      assertNode(node2, AANodeInt.nil, AANodeInt.nil, 1, 1, 2, 2, 2);
     }
 
     @Test
@@ -559,245 +1041,245 @@ public class AATreeTest {
       AANodeInt node3 = aaMakeNode(node2, AANodeInt.nil, 1, 3, 3);
 
       AANodeInt root = aaSplit(node3);
-      assertNode(root, node2, AANodeInt.nil, 1, 3, 3);
-      assertNode(node2, node1, AANodeInt.nil, 1, 2, 2);
+      assertNode(root, node2, AANodeInt.nil, 1, 3, 3, 6, 3);
+      assertNode(node2, node1, AANodeInt.nil, 1, 2, 2, 3, 2);
       assertNodeLeaf(node1, 1);
     }
 
     @Test
     public void split05Test() {
-      AANodeInt node3 = aaMakeLeaf(3);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 3, 3);
       AANodeInt node2 = aaMakeNode(AANodeInt.nil, node3, 1, 2, 2);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 1, 3, 1);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 1, 1, 1);
 
       AANodeInt root = aaSplit(node1);
-      assertNode(root, node1, node3, 2, 3, 2);
+      assertNode(root, node1, node3, 2, 3, 2, 6, 2);
       assertNodeLeaf(node1, 1);
-      assertNodeLeaf(node3, 3);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 1, 1, 3, 3, 3);
     }
 
     @Test
     public void split06Test() {
-      AANodeInt node4 = aaMakeLeaf(4);
-      AANodeInt node3 = aaMakeNode(AANodeInt.nil, node4, 2, 2, 3);
-      AANodeInt node2 = aaMakeNode(AANodeInt.nil, node3, 2, 3, 2);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 2, 4, 1);
+      AANodeInt node4 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 4, 4);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, node4, 2, 3, 3);
+      AANodeInt node2 = aaMakeNode(AANodeInt.nil, node3, 2, 2, 2);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 2, 1, 1);
 
       AANodeInt root = aaSplit(node1);
-      assertNode(root, node1, node3, 3, 4, 2);
-      assertNode(node1, AANodeInt.nil, AANodeInt.nil, 2, 1, 1);
-      assertNode(node3, AANodeInt.nil, node4, 2, 2, 3);
-      assertNodeLeaf(node4, 4);
+      assertNode(root, node1, node3, 3, 4, 2, 10, 2);
+      assertNode(node1, AANodeInt.nil, AANodeInt.nil, 2, 1, 1, 1, 1);
+      assertNode(node3, AANodeInt.nil, node4, 2, 2, 3, 7, 3);
+      assertNode(node4, AANodeInt.nil, AANodeInt.nil, 1, 1, 4, 4, 4);
     }
 
     @Test
     public void split07Test() {
-      AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node4 = aaMakeNode(node3, AANodeInt.nil, 2, 2, 4);
-      AANodeInt node2 = aaMakeNode(AANodeInt.nil, node4, 2, 3, 2);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 2, 4, 1);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 3, 3);
+      AANodeInt node4 = aaMakeNode(node3, AANodeInt.nil, 2, 4, 4);
+      AANodeInt node2 = aaMakeNode(AANodeInt.nil, node4, 2, 2, 2);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 2, 1, 1);
 
       AANodeInt root = aaSplit(node1);
-      assertNode(root, node1, node4, 3, 4, 2);
-      assertNode(node1, AANodeInt.nil, AANodeInt.nil, 2, 1, 1);
-      assertNode(node4, node3, AANodeInt.nil, 2, 2, 4);
-      assertNodeLeaf(node3, 3);
+      assertNode(root, node1, node4, 3, 4, 2, 10, 2);
+      assertNode(node1, AANodeInt.nil, AANodeInt.nil, 2, 1, 1, 1, 1);
+      assertNode(node4, node3, AANodeInt.nil, 2, 2, 4, 7, 4);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 1, 1, 3, 3, 3);
     }
 
     @Test
     public void split08Test() {
-      AANodeInt node2 = aaMakeLeaf(2);
-      AANodeInt node4 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 2, 1, 4);
+      AANodeInt node2 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 2, 2);
+      AANodeInt node4 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 2, 4, 4);
       AANodeInt node3 = aaMakeNode(node2, node4, 2, 3, 3);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node3, 2, 4, 1);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node3, 2, 1, 1);
 
       AANodeInt root = aaSplit(node1);
-      assertNode(root, node1, node4, 3, 4, 3);
-      assertNode(node1, AANodeInt.nil, node2, 2, 2, 1);
-      assertNode(node4, AANodeInt.nil, AANodeInt.nil, 2, 1, 4);
-      assertNodeLeaf(node2, 2);
+      assertNode(root, node1, node4, 3, 4, 3, 10, 3);
+      assertNode(node1, AANodeInt.nil, node2, 2, 2, 1, 3, 1);
+      assertNode(node4, AANodeInt.nil, AANodeInt.nil, 2, 1, 4, 4, 4);
+      assertNode(node2, AANodeInt.nil, AANodeInt.nil, 1, 1, 2, 2, 2);
     }
 
     @Test
     public void split09Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node4 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 2, 1, 4);
-      AANodeInt node3 = aaMakeNode(AANodeInt.nil, node4, 2, 2, 3);
-      AANodeInt node2 = aaMakeNode(node1, node3, 2, 4, 2);
+      AANodeInt node4 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 2, 4, 4);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, node4, 2, 3, 3);
+      AANodeInt node2 = aaMakeNode(node1, node3, 2, 2, 2);
 
       AANodeInt root = aaSplit(node2);
-      assertNode(root, node2, node4, 3, 4, 3);
-      assertNode(node2, node1, AANodeInt.nil, 2, 2, 2);
+      assertNode(root, node2, node4, 3, 4, 3, 10, 3);
+      assertNode(node2, node1, AANodeInt.nil, 2, 2, 2, 3, 2);
       assertNodeLeaf(node1, 1);
-      assertNode(node4, AANodeInt.nil, AANodeInt.nil, 2, 1, 4);
+      assertNode(node4, AANodeInt.nil, AANodeInt.nil, 2, 1, 4, 4, 4);
     }
 
     @Test
     public void split10Test() {
-      AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node4 = aaMakeNode(node3, node5, 2, 3, 4);
-      AANodeInt node2 = aaMakeNode(AANodeInt.nil, node4, 2, 4, 2);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 2, 5, 1);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 3, 3);
+      AANodeInt node5 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 5, 5);
+      AANodeInt node4 = aaMakeNode(node3, node5, 2, 4, 4);
+      AANodeInt node2 = aaMakeNode(AANodeInt.nil, node4, 2, 2, 2);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 2, 1, 1);
 
       AANodeInt root = aaSplit(node1);
-      assertNode(root, node1, node4, 3, 5, 2);
-      assertNode(node1, AANodeInt.nil, AANodeInt.nil, 2, 1, 1);
-      assertNode(node4, node3, node5, 2, 3, 4);
-      assertNodeLeaf(node3, 3);
-      assertNodeLeaf(node5, 5);
+      assertNode(root, node1, node4, 3, 5, 2, 15, 2);
+      assertNode(node1, AANodeInt.nil, AANodeInt.nil, 2, 1, 1, 1, 1);
+      assertNode(node4, node3, node5, 2, 3, 4, 12, 4);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 1, 1, 3, 3, 3);
+      assertNode(node5, AANodeInt.nil, AANodeInt.nil, 1, 1, 5, 5, 5);
     }
 
     @Test
     public void split11Test() {
-      AANodeInt node2 = aaMakeLeaf(2);
-      AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node4 = aaMakeNode(AANodeInt.nil, node5, 2, 2, 4);
-      AANodeInt node3 = aaMakeNode(node2, node4, 2, 4, 3);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node3, 2, 5, 1);
+      AANodeInt node2 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 2, 2);
+      AANodeInt node5 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 5, 5);
+      AANodeInt node4 = aaMakeNode(AANodeInt.nil, node5, 2, 4, 4);
+      AANodeInt node3 = aaMakeNode(node2, node4, 2, 3, 3);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node3, 2, 1, 1);
 
       AANodeInt root = aaSplit(node1);
-      assertNode(root, node1, node4, 3, 5, 3);
-      assertNode(node1, AANodeInt.nil, node2, 2, 2, 1);
-      assertNodeLeaf(node2, 2);
-      assertNode(node4, AANodeInt.nil, node5, 2, 2, 4);
-      assertNodeLeaf(node5, 5);
+      assertNode(root, node1, node4, 3, 5, 3, 15, 3);
+      assertNode(node1, AANodeInt.nil, node2, 2, 2, 1, 3, 1);
+      assertNode(node2, AANodeInt.nil, AANodeInt.nil, 1, 1, 2, 2, 2);
+      assertNode(node4, AANodeInt.nil, node5, 2, 2, 4, 9, 4);
+      assertNode(node5, AANodeInt.nil, AANodeInt.nil, 1, 1, 5, 5, 5);
     }
 
     @Test
     public void split12Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node4 = aaMakeNode(AANodeInt.nil, node5, 2, 2, 4);
+      AANodeInt node5 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 5, 5);
+      AANodeInt node4 = aaMakeNode(AANodeInt.nil, node5, 2, 4, 4);
       AANodeInt node3 = aaMakeNode(AANodeInt.nil, node4, 2, 3, 3);
-      AANodeInt node2 = aaMakeNode(node1, node3, 2, 5, 2);
+      AANodeInt node2 = aaMakeNode(node1, node3, 2, 2, 2);
 
       AANodeInt root = aaSplit(node2);
-      assertNode(root, node2, node4, 3, 5, 3);
-      assertNode(node2, node1, AANodeInt.nil, 2, 2, 2);
+      assertNode(root, node2, node4, 3, 5, 3, 15, 3);
+      assertNode(node2, node1, AANodeInt.nil, 2, 2, 2, 3, 2);
       assertNodeLeaf(node1, 1);
-      assertNode(node4, AANodeInt.nil, node5, 2, 2, 4);
-      assertNodeLeaf(node5, 5);
+      assertNode(node4, AANodeInt.nil, node5, 2, 2, 4, 9, 4);
+      assertNode(node5, AANodeInt.nil, AANodeInt.nil, 1, 1, 5, 5, 5);
     }
 
     @Test
     public void split13Test() {
-      AANodeInt node2 = aaMakeLeaf(2);
-      AANodeInt node4 = aaMakeLeaf(4);
-      AANodeInt node5 = aaMakeNode(node4, AANodeInt.nil, 2, 2, 5);
-      AANodeInt node3 = aaMakeNode(node2, node5, 2, 4, 3);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node3, 2, 5, 1);
+      AANodeInt node2 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 2, 2);
+      AANodeInt node4 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 4, 4);
+      AANodeInt node5 = aaMakeNode(node4, AANodeInt.nil, 2, 5, 5);
+      AANodeInt node3 = aaMakeNode(node2, node5, 2, 3, 3);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node3, 2, 1, 1);
 
       AANodeInt root = aaSplit(node1);
-      assertNode(root, node1, node5, 3, 5, 3);
-      assertNode(node1, AANodeInt.nil, node2, 2, 2, 1);
-      assertNodeLeaf(node2, 2);
-      assertNode(node5, node4, AANodeInt.nil, 2, 2, 5);
-      assertNodeLeaf(node4, 4);
+      assertNode(root, node1, node5, 3, 5, 3, 15, 3);
+      assertNode(node1, AANodeInt.nil, node2, 2, 2, 1, 3, 1);
+      assertNode(node2, AANodeInt.nil, AANodeInt.nil, 1, 1, 2, 2, 2);
+      assertNode(node5, node4, AANodeInt.nil, 2, 2, 5, 9, 5);
+      assertNode(node4, AANodeInt.nil, AANodeInt.nil, 1, 1, 4, 4, 4);
     }
 
     @Test
     public void split14Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node4 = aaMakeLeaf(4);
-      AANodeInt node5 = aaMakeNode(node4, AANodeInt.nil, 2, 2, 5);
+      AANodeInt node4 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 4, 4);
+      AANodeInt node5 = aaMakeNode(node4, AANodeInt.nil, 2, 5, 5);
       AANodeInt node3 = aaMakeNode(AANodeInt.nil, node5, 2, 3, 3);
-      AANodeInt node2 = aaMakeNode(node1, node3, 2, 5, 2);
+      AANodeInt node2 = aaMakeNode(node1, node3, 2, 2, 2);
 
       AANodeInt root = aaSplit(node2);
-      assertNode(root, node2, node5, 3, 5, 3);
-      assertNode(node2, node1, AANodeInt.nil, 2, 2, 2);
+      assertNode(root, node2, node5, 3, 5, 3, 15, 3);
+      assertNode(node2, node1, AANodeInt.nil, 2, 2, 2, 3, 2);
       assertNodeLeaf(node1, 1);
-      assertNode(node5, node4, AANodeInt.nil, 2, 2, 5);
-      assertNodeLeaf(node4, 4);
+      assertNode(node5, node4, AANodeInt.nil, 2, 2, 5, 9, 5);
+      assertNode(node4, AANodeInt.nil, AANodeInt.nil, 1, 1, 4, 4, 4);
     }
 
     @Test
     public void split15Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node5 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 2, 1, 5);
-      AANodeInt node4 = aaMakeNode(node3, node5, 2, 3, 4);
-      AANodeInt node2 = aaMakeNode(node1, node4, 2, 5, 2);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 3, 3);
+      AANodeInt node5 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 2, 5, 5);
+      AANodeInt node4 = aaMakeNode(node3, node5, 2, 4, 4);
+      AANodeInt node2 = aaMakeNode(node1, node4, 2, 2, 2);
 
       AANodeInt root = aaSplit(node2);
-      assertNode(root, node2, node5, 3, 5, 4);
-      assertNode(node2, node1, node3, 2, 3, 2);
+      assertNode(root, node2, node5, 3, 5, 4, 15, 4);
+      assertNode(node2, node1, node3, 2, 3, 2, 6, 2);
       assertNodeLeaf(node1, 1);
-      assertNodeLeaf(node3, 3);
-      assertNode(node5, AANodeInt.nil, AANodeInt.nil, 2, 1, 5);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 1, 1, 3, 3, 3);
+      assertNode(node5, AANodeInt.nil, AANodeInt.nil, 2, 1, 5, 5, 5);
     }
 
     @Test
     public void split16Test() {
-      AANodeInt node2 = aaMakeLeaf(2);
-      AANodeInt node4 = aaMakeLeaf(4);
-      AANodeInt node6 = aaMakeLeaf(6);
-      AANodeInt node5 = aaMakeNode(node4, node6, 2, 3, 5);
-      AANodeInt node3 = aaMakeNode(node2, node5, 2, 5, 3);
-      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node3, 2, 6, 1);
+      AANodeInt node2 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 2, 2);
+      AANodeInt node4 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 4, 4);
+      AANodeInt node6 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 6, 6);
+      AANodeInt node5 = aaMakeNode(node4, node6, 2, 5, 5);
+      AANodeInt node3 = aaMakeNode(node2, node5, 2, 3, 3);
+      AANodeInt node1 = aaMakeNode(AANodeInt.nil, node3, 2, 1, 1);
 
       AANodeInt root = aaSplit(node1);
-      assertNode(root, node1, node5, 3, 6, 3);
-      assertNode(node1, AANodeInt.nil, node2, 2, 2, 1);
-      assertNodeLeaf(node2, 2);
-      assertNode(node5, node4, node6, 2, 3, 5);
-      assertNodeLeaf(node4, 4);
-      assertNodeLeaf(node6, 6);
+      assertNode(root, node1, node5, 3, 6, 3, 21, 3);
+      assertNode(node1, AANodeInt.nil, node2, 2, 2, 1, 3, 1);
+      assertNode(node2, AANodeInt.nil, AANodeInt.nil, 1, 1, 2, 2, 2);
+      assertNode(node5, node4, node6, 2, 3, 5, 15, 5);
+      assertNode(node4, AANodeInt.nil, AANodeInt.nil, 1, 1, 4, 4, 4);
+      assertNode(node6, AANodeInt.nil, AANodeInt.nil, 1, 1, 6, 6, 6);
     }
 
     @Test
     public void split17Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node4 = aaMakeLeaf(4);
-      AANodeInt node6 = aaMakeLeaf(6);
-      AANodeInt node5 = aaMakeNode(node4, node6, 2, 3, 5);
-      AANodeInt node3 = aaMakeNode(AANodeInt.nil, node5, 2, 4, 3);
-      AANodeInt node2 = aaMakeNode(node1, node3, 2, 6, 2);
+      AANodeInt node4 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 4, 4);
+      AANodeInt node6 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 6, 6);
+      AANodeInt node5 = aaMakeNode(node4, node6, 2, 5, 5);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, node5, 2, 3, 3);
+      AANodeInt node2 = aaMakeNode(node1, node3, 2, 2, 2);
 
       AANodeInt root = aaSplit(node2);
-      assertNode(root, node2, node5, 3, 6, 3);
-      assertNode(node2, node1, AANodeInt.nil, 2, 2, 2);
+      assertNode(root, node2, node5, 3, 6, 3, 21, 3);
+      assertNode(node2, node1, AANodeInt.nil, 2, 2, 2, 3, 2);
       assertNodeLeaf(node1, 1);
-      assertNode(node5, node4, node6, 2, 3, 5);
-      assertNodeLeaf(node4, 4);
-      assertNodeLeaf(node6, 6);
+      assertNode(node5, node4, node6, 2, 3, 5, 15, 5);
+      assertNode(node4, AANodeInt.nil, AANodeInt.nil, 1, 1, 4, 4, 4);
+      assertNode(node6, AANodeInt.nil, AANodeInt.nil, 1, 1, 6, 6, 6);
     }
 
     @Test
     public void split18Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node6 = aaMakeLeaf(6);
-      AANodeInt node5 = aaMakeNode(AANodeInt.nil, node6, 2, 2, 5);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 3, 3);
+      AANodeInt node6 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 6, 6);
+      AANodeInt node5 = aaMakeNode(AANodeInt.nil, node6, 2, 5, 5);
       AANodeInt node4 = aaMakeNode(node3, node5, 2, 4, 4);
-      AANodeInt node2 = aaMakeNode(node1, node4, 2, 6, 2);
+      AANodeInt node2 = aaMakeNode(node1, node4, 2, 2, 2);
 
       AANodeInt root = aaSplit(node2);
-      assertNode(root, node2, node5, 3, 6, 4);
-      assertNode(node2, node1, node3, 2, 3, 2);
+      assertNode(root, node2, node5, 3, 6, 4, 21, 4);
+      assertNode(node2, node1, node3, 2, 3, 2, 6, 2);
       assertNodeLeaf(node1, 1);
-      assertNodeLeaf(node3, 3);
-      assertNode(node5, AANodeInt.nil, node6, 2, 2, 5);
-      assertNodeLeaf(node6, 6);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 1, 1, 3, 3, 3);
+      assertNode(node5, AANodeInt.nil, node6, 2, 2, 5, 11, 5);
+      assertNode(node6, AANodeInt.nil, AANodeInt.nil, 1, 1, 6, 6, 6);
     }
 
     @Test
     public void split19Test() {
       AANodeInt node1 = aaMakeLeaf(1);
-      AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node6 = aaMakeNode(node5, AANodeInt.nil, 2, 2, 6);
+      AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 3, 3);
+      AANodeInt node5 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 1, 5, 5);
+      AANodeInt node6 = aaMakeNode(node5, AANodeInt.nil, 2, 6, 6);
       AANodeInt node4 = aaMakeNode(node3, node6, 2, 4, 4);
-      AANodeInt node2 = aaMakeNode(node1, node4, 2, 6, 2);
+      AANodeInt node2 = aaMakeNode(node1, node4, 2, 2, 2);
 
       AANodeInt root = aaSplit(node2);
-      assertNode(root, node2, node6, 3, 6, 4);
-      assertNode(node2, node1, node3, 2, 3, 2);
+      assertNode(root, node2, node6, 3, 6, 4, 21, 4);
+      assertNode(node2, node1, node3, 2, 3, 2, 6, 2);
       assertNodeLeaf(node1, 1);
-      assertNodeLeaf(node3, 3);
-      assertNode(node6, node5, AANodeInt.nil, 2, 2, 6);
-      assertNodeLeaf(node5, 5);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 1, 1, 3, 3, 3);
+      assertNode(node6, node5, AANodeInt.nil, 2, 2, 6, 11, 6);
+      assertNode(node5, AANodeInt.nil, AANodeInt.nil, 1, 1, 5, 5, 5);
     }
 
     @Test
@@ -806,16 +1288,16 @@ public class AATreeTest {
       AANodeInt node3 = aaMakeLeaf(3);
       AANodeInt node5 = aaMakeLeaf(5);
       AANodeInt node7 = aaMakeLeaf(7);
-      AANodeInt node6 = aaMakeNode(node5, node7, 2, 3, 6);
-      AANodeInt node4 = aaMakeNode(node3, node6, 2, 5, 4);
-      AANodeInt node2 = aaMakeNode(node1, node4, 2, 7, 2);
+      AANodeInt node6 = aaMakeNode(node5, node7, 2, 6, 6);
+      AANodeInt node4 = aaMakeNode(node3, node6, 2, 4, 4);
+      AANodeInt node2 = aaMakeNode(node1, node4, 2, 2, 2);
 
       AANodeInt root = aaSplit(node2);
-      assertNode(root, node2, node6, 3, 7, 4);
-      assertNode(node2, node1, node3, 2, 3, 2);
+      assertNode(root, node2, node6, 3, 7, 4, 16, 4);
+      assertNode(node2, node1, node3, 2, 3, 2, 4, 2);
       assertNodeLeaf(node1, 1);
       assertNodeLeaf(node3, 3);
-      assertNode(node6, node5, node7, 2, 3, 6);
+      assertNode(node6, node5, node7, 2, 3, 6, 8, 6);
       assertNodeLeaf(node5, 5);
       assertNodeLeaf(node7, 7);
     }
@@ -826,16 +1308,16 @@ public class AATreeTest {
       AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 2, 1, 3);
       AANodeInt node5 = aaMakeLeaf(5);
       AANodeInt node7 = aaMakeLeaf(7);
-      AANodeInt node6 = aaMakeNode(node5, node7, 1, 3, 6);
-      AANodeInt node4 = aaMakeNode(node3, node6, 2, 5, 4);
-      AANodeInt node2 = aaMakeNode(node1, node4, 2, 7, 2);
+      AANodeInt node6 = aaMakeNode(node5, node7, 1, 1, 6);
+      AANodeInt node4 = aaMakeNode(node3, node6, 2, 1, 4);
+      AANodeInt node2 = aaMakeNode(node1, node4, 2, 1, 2);
 
       AANodeInt root = aaSplit(node2);
-      assertNode(root, node1, node4, 2, 7, 2);
+      assertNode(root, node1, node4, 2, 7, 1, 7, 2);
       assertNodeLeaf(node1, 1);
-      assertNode(node4, node3, node6, 2, 5, 4);
-      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 2, 1, 3);
-      assertNode(node6, node5, node7, 1, 3, 6);
+      assertNode(node4, node3, node6, 2, 5, 1, 5, 4);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 2, 1, 1, 1, 3);
+      assertNode(node6, node5, node7, 1, 3, 1, 3, 6);
       assertNodeLeaf(node5, 5);
       assertNodeLeaf(node7, 7);
     }
@@ -846,16 +1328,16 @@ public class AATreeTest {
       AANodeInt node3 = aaMakeLeaf(3);
       AANodeInt node5 = aaMakeLeaf(5);
       AANodeInt node7 = aaMakeLeaf(7);
-      AANodeInt node6 = aaMakeNode(node5, node7, 1, 3, 6);
-      AANodeInt node4 = aaMakeNode(node3, node6, 2, 5, 4);
-      AANodeInt node2 = aaMakeNode(node1, node4, 2, 7, 2);
+      AANodeInt node6 = aaMakeNode(node5, node7, 1, 1, 6);
+      AANodeInt node4 = aaMakeNode(node3, node6, 2, 1, 4);
+      AANodeInt node2 = aaMakeNode(node1, node4, 2, 1, 2);
 
       AANodeInt root = aaSplit(node2);
-      assertNode(root, node1, node4, 2, 7, 2);
-      assertNode(node1, AANodeInt.nil, AANodeInt.nil, 2, 1, 1);
-      assertNode(node4, node3, node6, 2, 5, 4);
+      assertNode(root, node1, node4, 2, 7, 1, 7, 2);
+      assertNode(node1, AANodeInt.nil, AANodeInt.nil, 2, 1, 1, 1, 1);
+      assertNode(node4, node3, node6, 2, 5, 1, 5, 4);
       assertNodeLeaf(node3, 3);
-      assertNode(node6, node5, node7, 1, 3, 6);
+      assertNode(node6, node5, node7, 1, 3, 1, 3, 6);
       assertNodeLeaf(node5, 5);
       assertNodeLeaf(node7, 7);
     }
@@ -864,15 +1346,15 @@ public class AATreeTest {
     public void split23Test() {
       AANodeInt node1 = aaMakeLeaf(1);
       AANodeInt node3 = aaMakeNode(AANodeInt.nil, AANodeInt.nil, 2, 1, 3);
-      AANodeInt node2 = aaMakeNode(node1, node3, 2, 3, 2);
+      AANodeInt node2 = aaMakeNode(node1, node3, 2, 1, 2);
       AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node4 = aaMakeNode(node2, node5, 2, 5, 4);
+      AANodeInt node4 = aaMakeNode(node2, node5, 2, 1, 4);
 
       AANodeInt root = aaSplit(node4);
-      assertNode(node4, node2, node5, 2, 5, 4);
-      assertNode(node2, node1, node3, 2, 3, 2);
+      assertNode(node4, node2, node5, 2, 5, 1, 5, 4);
+      assertNode(node2, node1, node3, 2, 3, 1, 3, 2);
       assertNodeLeaf(node1, 1);
-      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 2, 1, 3);
+      assertNode(node3, AANodeInt.nil, AANodeInt.nil, 2, 1, 1, 1, 3);
       assertNodeLeaf(node5, 5);
     }
 
@@ -880,16 +1362,16 @@ public class AATreeTest {
     public void split24Test() {
       AANodeInt node1 = aaMakeLeaf(1);
       AANodeInt node3 = aaMakeLeaf(3);
-      AANodeInt node2 = aaMakeNode(node1, node3, 2, 3, 2);
+      AANodeInt node2 = aaMakeNode(node1, node3, 2, 1, 2);
       AANodeInt node5 = aaMakeLeaf(5);
-      AANodeInt node4 = aaMakeNode(node2, node5, 2, 5, 4);
+      AANodeInt node4 = aaMakeNode(node2, node5, 2, 1, 4);
       AANodeInt node7 = aaMakeLeaf(7);
-      AANodeInt node6 = aaMakeNode(node4, node7, 2, 7, 6);
+      AANodeInt node6 = aaMakeNode(node4, node7, 2, 1, 6);
 
       AANodeInt root = aaSplit(node6);
-      assertNode(node6, node4, node7, 2, 7, 6);
-      assertNode(node4, node2, node5, 2, 5, 4);
-      assertNode(node2, node1, node3, 2, 3, 2);
+      assertNode(node6, node4, node7, 2, 7, 1, 7, 6);
+      assertNode(node4, node2, node5, 2, 5, 1, 5, 4);
+      assertNode(node2, node1, node3, 2, 3, 1, 3, 2);
       assertNodeLeaf(node1, 1);
       assertNodeLeaf(node3, 3);
       assertNodeLeaf(node5, 5);
@@ -897,35 +1379,27 @@ public class AATreeTest {
     }
   }
 
-  /* @Test */
-  /* public void inorderIncreasingInsertionTest() { */
-  /*   AANodeInt tree = AANodeInt.nil; */
-  /*   insertIncreasingValues(tree, 0, 16); */
-  /*   AANodeInt[] inorderSequence = aaInorder(tree); */
-  /*   assertNoDuplicates(inorderSequence, 0, 16); */
-  /*   assertPreorderNoDuplicates(inorderSequence, 0, 16); */
-  /* } */
-
   private static void assertIncreasingValues(
       AANodeInt[] sequence, int fromInclusive, int toExclusive) {
     assertThat(sequence.length, is(toExclusive - fromInclusive));
     for (int i = fromInclusive; i < toExclusive; ++i) {
       assertThat(sequence[i].value, is(i));
+      assertThat(sequence[i].occurrence, is(1));
     }
   }
 
-  // private static void assertNoDuplicates(AANodeInt[] sequence, int fromInclusive, int toExclusive) {
-  //   assertThat(sequence.length, is(toExclusive - fromInclusive));
-  //   Arrays.sort(sequence, (i, j) -> Integer.compare(i.value, j.value));
-  //
-  //   for (int i = 0; i < sequence.length; ++i) {
-  //     assertThat(sequence[i], is(fromInclusive++));
-  //   }
-  // }
-
   private static void assertNode(
-      AANodeInt node, AANodeInt leftChild, AANodeInt rightChild, int level, int size, int value) {
+      AANodeInt node,
+      AANodeInt leftChild,
+      AANodeInt rightChild,
+      int level,
+      int nNodes,
+      int occurrence,
+      int size,
+      int value) {
     assertThat(node.level, is(level));
+    assertThat(node.nNodes, is(nNodes));
+    assertThat(node.occurrence, is(occurrence));
     assertThat(node.size, is(size));
     assertThat(node.value, is(value));
     assertThat(node.children.length, is(2));
@@ -935,6 +1409,8 @@ public class AATreeTest {
 
   private static void assertNodeLeaf(AANodeInt node, int value) {
     assertThat(node.level, is(1));
+    assertThat(node.nNodes, is(1));
+    assertThat(node.occurrence, is(1));
     assertThat(node.size, is(1));
     assertThat(node.value, is(value));
     assertThat(node.children.length, is(2));
@@ -945,6 +1421,8 @@ public class AATreeTest {
   private static void assertNodeNil(AANodeInt node) {
     assertThat(node, is(AANodeInt.nil));
     assertThat(node.level, is(0));
+    assertThat(node.nNodes, is(0));
+    assertThat(node.occurrence, is(0));
     assertThat(node.size, is(0));
     assertThat(node.children.length, is(2));
     assertThat(node.children[0], is(AANodeInt.nil));
@@ -968,20 +1446,4 @@ public class AATreeTest {
       }
     }
   }
-
-  // private static void assertPreorderNoDuplicates(
-  //     AANodeInt[] sequence, int fromInclusive, int toExclusive) {
-  //   int lowerBound = fromInclusive;
-  //   int upperBound = toExclusive;
-  //   int i = 0;
-  //   for (AANodeInt item : sequence) {
-  //     assertThat(item, is(not(AANodeInt.nil)));
-  //     assertThat(item.value, is(greaterThanOrEqualTo(lowerBound)));
-  //     assertThat(item.value, is(lessThan(upperBound)));
-  //     while (i > 0 && item.value > sequence[i - 1].value) {
-  //       lowerBound = sequence[--i].value;
-  //     }
-  //     sequence[i++] = item;
-  //   }
-  // }
 }
