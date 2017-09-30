@@ -107,7 +107,7 @@ public class PermutationsTest {
       for (int[] expectedPermutation : expectedPermutations) {
         assertThat(permutationsIterator.hasNext(), is(true));
         int[] actualPermutation = permutationsIterator.next();
-        assertThat(equal(actualPermutation, expectedPermutation), is(true));
+        assertThat(isEqual(actualPermutation, expectedPermutation), is(true));
       }
       assertThat(permutationsIterator.hasNext(), is(false));
     }

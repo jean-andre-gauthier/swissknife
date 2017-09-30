@@ -6,19 +6,8 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.*;
 
+/** Helper methods loosely inspired from C++'s algorithms library. */
 public class Algorithms {
-
-  static boolean equal(int[] a, int[] b) {
-    if (a.length != b.length) {
-      return false;
-    }
-    for (int i = 0; i < a.length; ++i) {
-      if (a[i] != b[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
 
   @FunctionalInterface
   static interface LongBiPredicate {
@@ -44,6 +33,23 @@ public class Algorithms {
   }
 
   /**
+   * Checks whether two arrays have identical contents
+   *
+   * <p>Complexity: O(n)
+   */
+  static boolean isEqual(int[] a, int[] b) {
+    if (a.length != b.length) {
+      return false;
+    }
+    for (int i = 0; i < a.length; ++i) {
+      if (a[i] != b[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
    * Checks whether an array is a permutation of another
    *
    * <p>Complexity: O(nlog(n)) - O(n)
@@ -55,13 +61,38 @@ public class Algorithms {
     int[] bCopy = Arrays.copyOf(b, b.length);
     Arrays.sort(aCopy);
     Arrays.sort(bCopy);
-    return equal(aCopy, bCopy);
+    return isEqual(aCopy, bCopy);
+  }
+
+  /**
+   * Merges two sorted arrays
+   *
+   * <p>Complexity: O(t1.length + t2.length)
+   */
+  static int[] merge(int[] t1, int[] t2) {
+    int[] merged = new int[t1.length + t2.length];
+    int it1 = 0, it2 = 0, imerged = 0;
+
+    while (imerged < merged.length) {
+      if (it2 == t2.length || (it1 < t1.length && t1[it1] <= t2[it2])) {
+        merged[imerged++] = t1[it1++];
+      } else {
+        merged[imerged++] = t2[it2++];
+      }
+    }
+
+    return merged;
   }
 
   static int[] range(int toExclusive) {
     return range(0, toExclusive);
   }
 
+  /**
+   * Returns an array containing numbers from fromInclusive to toExclusive - 1
+   *
+   * <p>Complexity: O(toExclusive - fromInclusive)
+   */
   static int[] range(int fromInclusive, int toExclusive) {
     int nItems = toExclusive - fromInclusive;
     int[] range = new int[nItems];
@@ -71,6 +102,11 @@ public class Algorithms {
     return range;
   }
 
+  /**
+   * Reverses the contents of an array in-place
+   *
+   * <p>Complexity: O(elements.length)
+   */
   static void reverse(int[] elements) {
     reverse(elements, 0, elements.length);
   }
@@ -87,7 +123,7 @@ public class Algorithms {
    *
    * <p>Assumption: -elements.length <= offset <= elements.length
    *
-   * <p>Complexity: O(n)
+   * <p>Complexity: O(elements.length)
    */
   static void rotate(int[] elements, int offset) {
     int positiveOffset = offset >= 0 ? offset : elements.length + offset;
@@ -96,6 +132,11 @@ public class Algorithms {
     reverse(elements, positiveOffset, elements.length);
   }
 
+  /**
+   * Swaps elements[i] and elements[j]
+   *
+   * <p>Complexity: O(1)
+   */
   static void swap(int[] elements, int i, int j) {
     int temp = elements[i];
     elements[i] = elements[j];

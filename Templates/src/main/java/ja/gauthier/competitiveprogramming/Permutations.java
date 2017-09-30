@@ -67,7 +67,7 @@ public class Permutations {
             case 0:
               if (ns[stackTop] == 1) {
                 --stackTop;
-                hasNext = !equal(array, last);
+                hasNext = !isEqual(array, last);
                 return Arrays.copyOf(array, array.length);
               }
               is[stackTop] = 0;
