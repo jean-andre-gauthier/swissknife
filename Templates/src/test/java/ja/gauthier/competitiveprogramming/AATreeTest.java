@@ -294,28 +294,39 @@ public class AATreeTest {
 
     @Test
     public void testDifferenceIntersectionUnion() {
-      AANodeInt[] actualDifference =
-          aaInorder(
-              aaDifference(aaTreeFromUnsortedValues(t1Values), aaTreeFromUnsortedValues(t2Values)));
+      AANodeInt differenceT1 = aaTreeFromUnsortedValues(t1Values);
+      assertAAInvariants(differenceT1);
+      AANodeInt differenceT2 = aaTreeFromUnsortedValues(t2Values);
+      assertAAInvariants(differenceT2);
+      AANodeInt difference = aaDifference(differenceT1, differenceT2);
+      assertAAInvariants(difference);
+      AANodeInt[] actualDifference = aaInorder(difference);
       assertThat(actualDifference.length, is(expectedDifference.length));
       for (int i = 0; i < expectedDifference.length; ++i) {
         assertThat(actualDifference[i].value, is(expectedDifference[i]));
         assertThat(actualDifference[i].occurrence, is(expectedDifferenceOccurrences[i]));
       }
 
-      AANodeInt[] actualIntersection =
-          aaInorder(
-              aaIntersection(
-                  aaTreeFromUnsortedValues(t1Values), aaTreeFromUnsortedValues(t2Values)));
+      AANodeInt intersectionT1 = aaTreeFromUnsortedValues(t1Values);
+      assertAAInvariants(intersectionT1);
+      AANodeInt intersectionT2 = aaTreeFromUnsortedValues(t2Values);
+      assertAAInvariants(intersectionT2);
+      AANodeInt intersection = aaIntersection(intersectionT1, intersectionT2);
+      assertAAInvariants(intersection);
+      AANodeInt[] actualIntersection = aaInorder(intersection);
       assertThat(actualIntersection.length, is(expectedIntersection.length));
       for (int i = 0; i < expectedIntersection.length; ++i) {
         assertThat(actualIntersection[i].value, is(expectedIntersection[i]));
         assertThat(actualIntersection[i].occurrence, is(expectedIntersectionOccurrences[i]));
       }
 
-      AANodeInt[] actualUnion =
-          aaInorder(
-              aaUnion(aaTreeFromUnsortedValues(t1Values), aaTreeFromUnsortedValues(t2Values)));
+      AANodeInt unionT1 = aaTreeFromUnsortedValues(t1Values);
+      assertAAInvariants(unionT1);
+      AANodeInt unionT2 = aaTreeFromUnsortedValues(t2Values);
+      assertAAInvariants(unionT2);
+      AANodeInt union = aaUnion(unionT1, unionT2);
+      assertAAInvariants(union);
+      AANodeInt[] actualUnion = aaInorder(union);
       assertThat(actualUnion.length, is(expectedUnion.length));
       for (int i = 0; i < expectedUnion.length; ++i) {
         assertThat(actualUnion[i].value, is(expectedUnion[i]));
