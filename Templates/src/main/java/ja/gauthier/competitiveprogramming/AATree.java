@@ -393,6 +393,81 @@ public class AATree {
   }
 
   /**
+   * Performs a Morris postorder tree traversal on t.
+   *
+   * <p>Complexity: O(n)
+   */
+  static AANodeInt[] aaPostorder(AANodeInt t) {
+    int iPostorder = 0;
+    AANodeInt[] postorder = new AANodeInt[t.nNodes];
+    AANodeInt tTemp = aaMakeNode(t, AANodeInt.nil, 0, 0, 0);
+    while (tTemp != AANodeInt.nil) {
+      AANodeInt previous = tTemp.children[0];
+      if (previous != AANodeInt.nil) {
+        while (previous.children[1] != AANodeInt.nil && previous.children[1] != tTemp) {
+          previous = previous.children[1];
+        }
+        if (previous.children[1] == tTemp) {
+          previous = tTemp;
+          AANodeInt current = tTemp.children[0];
+          while (current != tTemp) {
+            AANodeInt next = current.children[1];
+            current.children[1] = previous;
+            previous = current;
+            current = next;
+          }
+          current = previous;
+          previous = tTemp;
+          while (current != tTemp) {
+            postorder[iPostorder++] = current;
+            AANodeInt next = current.children[1];
+            current.children[1] = previous == tTemp ? AANodeInt.nil : previous;
+            previous = current;
+            current = next;
+          }
+          tTemp = tTemp.children[1];
+        } else {
+          previous.children[1] = tTemp;
+          tTemp = tTemp.children[0];
+        }
+      } else {
+        tTemp = tTemp.children[1];
+      }
+    }
+    return postorder;
+  }
+
+  /**
+   * Performs a Morris preorder tree traversal on t.
+   *
+   * <p>Complexity: O(n)
+   */
+  static AANodeInt[] aaPreorder(AANodeInt t) {
+    int iPreorder = 0;
+    AANodeInt[] preorder = new AANodeInt[t.nNodes];
+    while (t != AANodeInt.nil) {
+      AANodeInt previous = t.children[0];
+      if (previous != AANodeInt.nil) {
+        while (previous.children[1] != AANodeInt.nil && previous.children[1] != t) {
+          previous = previous.children[1];
+        }
+        if (previous.children[1] == t) {
+          previous.children[1] = AANodeInt.nil;
+          t = t.children[1];
+        } else {
+          previous.children[1] = t;
+          preorder[iPreorder++] = t;
+          t = t.children[0];
+        }
+      } else {
+        preorder[iPreorder++] = t;
+        t = t.children[1];
+      }
+    }
+    return preorder;
+  }
+
+  /**
    * Returns the rank of value, i.e. 1 if |{e in root | e < value}| = 0, root.size+1 if |{e in root
    * | e < value}| = root.size, and the sum of the occurrences of {e in root | e < value} + 1
    * otherwise
