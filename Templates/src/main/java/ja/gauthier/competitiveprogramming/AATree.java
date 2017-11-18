@@ -189,28 +189,6 @@ public class AATree {
     return t;
   }
 
-  // static AANodeInt[] aaDeleteMin(AANodeInt t) {
-  //   return jsSplitMin(t);
-  // }
-  //
-  // static AANodeInt[] aaDeleteMax(AANodeInt node) {
-  //   return jsSplitMax(t);
-  // }
-  //
-  // static AANodeInt aaFindMin(AANodeInt t) {
-  //   while (t.children[0] != AANodeInt.nil) {
-  //     t = t.children[0];
-  //   }
-  //   return t;
-  // }
-  //
-  // static AANodeInt aaFindMax(AANodeInt node) {
-  //   while (t.children[1] != AANodeInt.nil) {
-  //     t = t.children[1];
-  //   }
-  //   return t;
-  // }
-
   /**
    * Calculates the set difference of t1 and t2. The occurrence of an element is the maximum between
    * 0 and the difference of its occurrences in t1 and t2. Destroys the trees contained in t1 and
@@ -393,6 +371,15 @@ public class AATree {
   }
 
   /**
+   * Returns the occurence count of the provided integer.
+   *
+   * <p>Complexity: O(log(n))
+   */
+  static int aaOccurrence(AANodeInt root, int k) {
+    return aaFind(root, k).occurrence;
+  }
+
+  /**
    * Performs a Morris postorder tree traversal on t.
    *
    * <p>Complexity: O(n)
@@ -495,10 +482,6 @@ public class AATree {
       }
     }
     return rank;
-  }
-
-  static int aaOccurrence(AANodeInt root, int k) {
-    return aaFind(root, k).occurrence;
   }
 
   /**
@@ -658,30 +641,4 @@ public class AATree {
 
     return aaTreeFromSortedNodes(merged, 0, imerged);
   }
-
-  // static int[] toPreorder(AANodeInt root) {
-  //   int[] values = new int[root.size];
-  //   int index = 0;
-  //   AANodeInt currentNode = root;
-  //   do {
-  //     values[index++] = currentNode.value;
-  //     if (currentNode.children[0] == AANodeInt.nil) {
-  //       currentNode = currentNode.children[1];
-  //     } else {
-  //       AANodeInt pred = currentNode.children[0];
-  //       while (pred.children[1] != AANodeInt.nil && pred.children[1] != currentNode) {
-  //         pred = pred.children[1];
-  //       }
-  //
-  //       if (pred.children[1] == AANodeInt.nil) {
-  //         pred.children[1] = currentNode;
-  //         currentNode = currentNode.children[0];
-  //       } else {
-  //         pred.children[1] = AANodeInt.nil;
-  //         currentNode = currentNode.children[1];
-  //       }
-  //     }
-  //   } while (currentNode != root);
-  //   return values;
-  // }
 }
