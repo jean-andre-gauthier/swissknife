@@ -6,32 +6,41 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.*;
 
+/** Helper methods for fast IO operations */
 public class IO {
   public static void main(String[] args) {}
 
-  static MyScanner in = new MyScanner();
-  static MyPrintWriter out = new MyPrintWriter();
+  static FastScanner in = new FastScanner();
+  static FastPrintWriter out = new FastPrintWriter();
   static RandScanner rand = new RandScanner();
 
-  static class MyPrintWriter {
+  static class FastPrintWriter {
     BufferedOutputStream bos;
     PrintWriter pw;
 
-    MyPrintWriter() {
+    FastPrintWriter() {
       this.bos = new BufferedOutputStream(System.out);
       this.pw = new PrintWriter(bos, true);
     }
 
-    void print(String t) {
+    void print(int t) {
       pw.print(t);
+    }
+
+    void print(long t) {
+      pw.print(t);
+    }
+
+    void print(double t) {
+      pw.print(t);
+    }
+
+    <T> void print(T t) {
+      pw.print(t.toString());
     }
 
     void println() {
       pw.println("");
-    }
-
-    void println(String s) {
-      pw.println(s);
     }
 
     void println(int t) {
@@ -187,14 +196,30 @@ public class IO {
       pw.print(sb.toString());
       pw.flush();
     }
+
+    <T> void println(T[][] tss) {
+      StringBuilder sb = new StringBuilder();
+      for (T[] ts : tss) {
+        for (T t : ts) {
+          sb.append(t.toString()).append(" ");
+        }
+        if (ts.length > 0) {
+          sb.setCharAt(sb.length() - 1, '\n');
+        } else {
+          sb.append('\n');
+        }
+      }
+      pw.print(sb.toString());
+      pw.flush();
+    }
   }
 
-  static class MyScanner {
+  static class FastScanner {
     InputStreamReader is;
     BufferedReader br;
     StringTokenizer st;
 
-    MyScanner() {
+    FastScanner() {
       this.is = new InputStreamReader(System.in);
       this.br = new BufferedReader(is);
     }
@@ -234,15 +259,15 @@ public class IO {
 
     int[] nextInts(int n, boolean oneBased) {
       if (oneBased) {
-        return nextInts(n, 1, n + 1);
+        return nextInts(n, 1);
       } else {
-        return nextInts(n, 0, n);
+        return nextInts(n, 0);
       }
     }
 
-    int[] nextInts(int n, int iMin, int iMax) {
-      int[] ints = new int[iMax];
-      for (int i = iMin; i < iMax; ++i) {
+    int[] nextInts(int n, int iMin) {
+      int[] ints = new int[iMin + n];
+      for (int i = iMin; i < iMin + n; ++i) {
         ints[i] = nextInt();
       }
       return ints;
@@ -258,15 +283,15 @@ public class IO {
 
     long[] nextLongs(int n, boolean oneBased) {
       if (oneBased) {
-        return nextLongs(n, 1, n + 1);
+        return nextLongs(n, 1);
       } else {
-        return nextLongs(n, 0, n);
+        return nextLongs(n, 0);
       }
     }
 
-    long[] nextLongs(int n, int iMin, int iMax) {
-      long[] longs = new long[iMax];
-      for (int i = iMin; i < iMax; ++i) {
+    long[] nextLongs(int n, int iMin) {
+      long[] longs = new long[iMin + n];
+      for (int i = iMin; i < iMin + n; ++i) {
         longs[i] = nextLong();
       }
       return longs;
@@ -282,15 +307,15 @@ public class IO {
 
     double[] nextDoubles(int n, boolean oneBased) {
       if (oneBased) {
-        return nextDoubles(n, 1, n + 1);
+        return nextDoubles(n, 1);
       } else {
-        return nextDoubles(n, 0, n);
+        return nextDoubles(n, 0);
       }
     }
 
-    double[] nextDoubles(int n, int iMin, int iMax) {
-      double[] doubles = new double[iMax];
-      for (int i = iMin; i < iMax; ++i) {
+    double[] nextDoubles(int n, int iMin) {
+      double[] doubles = new double[iMin + n];
+      for (int i = iMin; i < iMin + n; ++i) {
         doubles[i] = nextDouble();
       }
       return doubles;
