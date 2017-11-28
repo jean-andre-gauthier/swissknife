@@ -1,7 +1,7 @@
-package ja.gauthier.competitiveprogramming;
+package ja.gauthier.swissknife;
 
-import static ja.gauthier.competitiveprogramming.Algorithms.*;
-import static ja.gauthier.competitiveprogramming.Doubles.*;
+import static ja.gauthier.swissknife.Algorithms.*;
+import static ja.gauthier.swissknife.Doubles.*;
 
 import java.io.*;
 import java.lang.*;

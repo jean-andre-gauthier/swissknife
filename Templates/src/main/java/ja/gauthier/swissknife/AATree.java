@@ -1,6 +1,6 @@
-package ja.gauthier.competitiveprogramming;
+package ja.gauthier.swissknife;
 
-import static ja.gauthier.competitiveprogramming.IO.*;
+import static ja.gauthier.swissknife.IO.*;
 
 import java.io.*;
 import java.lang.*;

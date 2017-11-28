@@ -1,6 +1,6 @@
-package ja.gauthier.competitiveprogramming;
+package ja.gauthier.swissknife;
 
-import static ja.gauthier.competitiveprogramming.Doubles.*;
+import static ja.gauthier.swissknife.Doubles.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 

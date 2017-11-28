@@ -1,4 +1,4 @@
-package ja.gauthier.competitiveprogramming;
+package ja.gauthier.swissknife;
 
 public class Doubles {
   /**

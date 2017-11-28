@@ -1,7 +1,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>ja.gauthier</groupId>
-  <artifactId>competitive-programming</artifactId>
+  <artifactId>swissknife</artifactId>
   <version>0.0.1</version>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>

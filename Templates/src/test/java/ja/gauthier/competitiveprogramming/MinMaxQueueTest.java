@@ -1,9 +1,9 @@
-package ja.gauthier.competitiveprogramming;
+package ja.gauthier.swissknife;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
-import ja.gauthier.competitiveprogramming.MinMaxQueueStack.*;
+import ja.gauthier.swissknife.MinMaxQueueStack.*;
 import java.util.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,10 +1,10 @@
-package ja.gauthier.competitiveprogramming;
+package ja.gauthier.swissknife;
 
-import static ja.gauthier.competitiveprogramming.AATree.*;
-import static ja.gauthier.competitiveprogramming.Algorithms.*;
-import static ja.gauthier.competitiveprogramming.IO.*;
-import static ja.gauthier.competitiveprogramming.IntervalTrees.*;
-import static ja.gauthier.competitiveprogramming.Permutations.*;
+import static ja.gauthier.swissknife.AATree.*;
+import static ja.gauthier.swissknife.Algorithms.*;
+import static ja.gauthier.swissknife.IO.*;
+import static ja.gauthier.swissknife.IntervalTrees.*;
+import static ja.gauthier.swissknife.Permutations.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 

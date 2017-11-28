@@ -1,6 +1,6 @@
-package ja.gauthier.competitiveprogramming;
+package ja.gauthier.swissknife;
 
-import static ja.gauthier.competitiveprogramming.ComputationalGeometry.*;
+import static ja.gauthier.swissknife.ComputationalGeometry.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
