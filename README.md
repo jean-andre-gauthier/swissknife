@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/jean-andre-gauthier/swissknife.svg?branch=master)](https://travis-ci.org/jean-andre-gauthier/swissknife)
 
-# swissknife
+# <img src="swissknife.png" width="80" height="80"> swissknife
 
 A collection of data structures and algorithms for programming contests written in Java. Therefore it is currently not organised as a library, but rather like a loose collection of helper methods/class that can be copy-pasted into a Java class to be submitted to an online judge.
 
@@ -8,8 +8,13 @@ A collection of data structures and algorithms for programming contests written 
 
 ## Algorithms
 
+To be completed
+
 ## Data Structures
-* AA Tree: Variant of the Arne Andersson tree, where an additional integer is stored in each node, in order to be able to perform order-statistic queries. An integer may be inserted multiple times, which increases the occurrence counter in the node.
+
+### `AA Tree`
+
+Variant of the Arne Andersson tree, where an additional integer is stored in each node, in order to be able to perform order-statistic queries. An integer may be inserted multiple times, which increases the occurrence counter in the node.
 
 | Operation        | Complexity  | Description                                                                              |
 | ---------------- | ----------- | ---------------------------------------------------------------------------------------- |
@@ -27,6 +32,8 @@ A collection of data structures and algorithms for programming contests written 
 | `aaUnion`        | `O(m+n)`    | Calculates the (multi)set union between two AA trees (recursive implementation !)        |
 
 Tree internals: each node stores a tuple `(AANodeInt[] children, int level, int nNodes, int occurrence, int size, int value)`. Of those fields, only `children`, `level` and `value` are strictly necessary for an AATree. The other ones are used as bookkeeping values for order-statistics / tree traversal operations. While the the tree may store up to INTEGER.MAX_VALUE elements, you might want to use a B-Tree well before reaching this limit.
+
+### `MonotonicQueue`
 
 ## IO Helpers
 The IO class defines three helper streams that can be statically imported.
