@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/jean-andre-gauthier/swissknife.svg?branch=master)](https://travis-ci.org/jean-andre-gauthier/swissknife)
 
-# <img src="swissknife.png" width="80" height="80"> swissknife
+# <img src="swissknife.png" width="100" height="75"> swissknife
 
 A collection of data structures and algorithms for programming contests written in Java. Therefore it is currently not organised as a library, but rather like a loose collection of helper methods/class that can be copy-pasted into a Java class to be submitted to an online judge.
 
