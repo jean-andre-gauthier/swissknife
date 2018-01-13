@@ -3,7 +3,7 @@ package ja.gauthier.swissknife;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
-import ja.gauthier.swissknife.MinMaxQueueStack.*;
+import ja.gauthier.swissknife.MonotonicQueueStack.*;
 import java.util.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +11,7 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(org.junit.runners.Parameterized.class)
-public class MinMaxQueueTest {
+public class MonotonicQueueTest {
   @Parameters(name = "stackSize: {0}")
   public static Collection<Object[]> data() {
     return Arrays.asList(new Object[][] {{1}, {2}, {3}, {4}});
@@ -21,7 +21,7 @@ public class MinMaxQueueTest {
 
   @Test
   public void singleSwapTest() {
-    MinMaxQueueInt qi = new MinMaxQueueInt(stackSize);
+    MonotonicQueueInt qi = new MonotonicQueueInt(stackSize);
     assertThat(qi.size(), is(0));
     assertThat(qi.isEmpty(), is(true));
 
@@ -62,7 +62,7 @@ public class MinMaxQueueTest {
 
   @Test
   public void multipleSwapTest() {
-    MinMaxQueueInt qi = new MinMaxQueueInt(stackSize);
+    MonotonicQueueInt qi = new MonotonicQueueInt(stackSize);
     assertThat(qi.size(), is(0));
     assertThat(qi.isEmpty(), is(true));
 
@@ -167,5 +167,63 @@ public class MinMaxQueueTest {
     assertThat(qi.dequeue(), is(-1));
     assertThat(qi.size(), is(0));
     assertThat(qi.isEmpty(), is(true));
+  }
+
+  @Test
+  public void insertionTest() {
+    MonotonicQueueInt qi = new MonotonicQueueInt(stackSize);
+
+    qi.enqueue(1);
+    assertThat(qi.size(), is(1));
+    assertThat(qi.isEmpty(), is(false));
+    assertThat(qi.getMin(), is(1));
+    assertThat(qi.getMax(), is(1));
+
+    qi.enqueue(2);
+    assertThat(qi.size(), is(2));
+    assertThat(qi.isEmpty(), is(false));
+    assertThat(qi.getMin(), is(1));
+    assertThat(qi.getMax(), is(2));
+
+    qi.enqueue(3);
+    assertThat(qi.size(), is(3));
+    assertThat(qi.isEmpty(), is(false));
+    assertThat(qi.getMin(), is(1));
+    assertThat(qi.getMax(), is(3));
+
+    assertThat(qi.dequeue(), is(1));
+    assertThat(qi.size(), is(2));
+    assertThat(qi.isEmpty(), is(false));
+    assertThat(qi.getMin(), is(2));
+    assertThat(qi.getMax(), is(3));
+  }
+
+  @Test
+  public void reverseInsertionTest() {
+    MonotonicQueueInt qi = new MonotonicQueueInt(stackSize);
+
+    qi.enqueue(3);
+    assertThat(qi.size(), is(1));
+    assertThat(qi.isEmpty(), is(false));
+    assertThat(qi.getMin(), is(3));
+    assertThat(qi.getMax(), is(3));
+
+    qi.enqueue(2);
+    assertThat(qi.size(), is(2));
+    assertThat(qi.isEmpty(), is(false));
+    assertThat(qi.getMin(), is(2));
+    assertThat(qi.getMax(), is(3));
+
+    qi.enqueue(1);
+    assertThat(qi.size(), is(3));
+    assertThat(qi.isEmpty(), is(false));
+    assertThat(qi.getMin(), is(1));
+    assertThat(qi.getMax(), is(3));
+
+    assertThat(qi.dequeue(), is(3));
+    assertThat(qi.size(), is(2));
+    assertThat(qi.isEmpty(), is(false));
+    assertThat(qi.getMin(), is(1));
+    assertThat(qi.getMax(), is(2));
   }
 }

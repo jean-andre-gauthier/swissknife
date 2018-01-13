@@ -6,12 +6,12 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.*;
 
-public class MinMaxQueueStack {
-  static class MinMaxStackInt {
+public class MonotonicQueueStack {
+  static class MonotonicStackInt {
     int[][] stack;
     int top;
 
-    MinMaxStackInt(int capacity) {
+    MonotonicStackInt(int capacity) {
       stack = new int[capacity][3];
       top = -1;
     }
@@ -29,9 +29,6 @@ public class MinMaxQueueStack {
     }
 
     int pop() {
-      if (stack.length >= 4 && top == stack.length / 4) {
-        stack = Arrays.copyOf(stack, Math.max(1, stack.length / 2));
-      }
       return stack[top--][0];
     }
 
@@ -79,13 +76,13 @@ public class MinMaxQueueStack {
     }
   }
 
-  static class MinMaxQueueInt {
-    MinMaxStackInt stackIn;
-    MinMaxStackInt stackOut;
+  static class MonotonicQueueInt {
+    MonotonicStackInt stackIn;
+    MonotonicStackInt stackOut;
 
-    MinMaxQueueInt(int stackCapacity) {
-      stackIn = new MinMaxStackInt(stackCapacity);
-      stackOut = new MinMaxStackInt(stackCapacity);
+    MonotonicQueueInt(int stackCapacity) {
+      stackIn = new MonotonicStackInt(stackCapacity);
+      stackOut = new MonotonicStackInt(stackCapacity);
     }
 
     int dequeue() {
@@ -137,11 +134,11 @@ public class MinMaxQueueStack {
     }
   }
 
-  static class MinMaxStackLong {
+  static class MonotonicStackLong {
     long[][] stack;
     int top;
 
-    MinMaxStackLong(int capacity) {
+    MonotonicStackLong(int capacity) {
       stack = new long[capacity][3];
       top = -1;
     }
@@ -159,9 +156,6 @@ public class MinMaxQueueStack {
     }
 
     long pop() {
-      if (stack.length >= 4 && top == stack.length / 4) {
-        stack = Arrays.copyOf(stack, Math.max(1, stack.length / 2));
-      }
       return stack[top--][0];
     }
 
@@ -209,13 +203,13 @@ public class MinMaxQueueStack {
     }
   }
 
-  static class MinMaxQueueLong {
-    MinMaxStackLong stackIn;
-    MinMaxStackLong stackOut;
+  static class MonotonicQueueLong {
+    MonotonicStackLong stackIn;
+    MonotonicStackLong stackOut;
 
-    MinMaxQueueLong(int stackCapacity) {
-      stackIn = new MinMaxStackLong(stackCapacity);
-      stackOut = new MinMaxStackLong(stackCapacity);
+    MonotonicQueueLong(int stackCapacity) {
+      stackIn = new MonotonicStackLong(stackCapacity);
+      stackOut = new MonotonicStackLong(stackCapacity);
     }
 
     long dequeue() {
@@ -267,11 +261,11 @@ public class MinMaxQueueStack {
     }
   }
 
-  static class MinMaxStackDouble {
+  static class MonotonicStackDouble {
     double[][] stack;
     int top;
 
-    MinMaxStackDouble(int capacity) {
+    MonotonicStackDouble(int capacity) {
       stack = new double[capacity][3];
       top = -1;
     }
@@ -289,9 +283,6 @@ public class MinMaxQueueStack {
     }
 
     double pop() {
-      if (stack.length >= 4 && top == stack.length / 4) {
-        stack = Arrays.copyOf(stack, Math.max(1, stack.length / 2));
-      }
       return stack[top--][0];
     }
 
@@ -339,13 +330,13 @@ public class MinMaxQueueStack {
     }
   }
 
-  static class MinMaxQueueDouble {
-    MinMaxStackDouble stackIn;
-    MinMaxStackDouble stackOut;
+  static class MonotonicQueueDouble {
+    MonotonicStackDouble stackIn;
+    MonotonicStackDouble stackOut;
 
-    MinMaxQueueDouble(int stackCapacity) {
-      stackIn = new MinMaxStackDouble(stackCapacity);
-      stackOut = new MinMaxStackDouble(stackCapacity);
+    MonotonicQueueDouble(int stackCapacity) {
+      stackIn = new MonotonicStackDouble(stackCapacity);
+      stackOut = new MonotonicStackDouble(stackCapacity);
     }
 
     double dequeue() {
