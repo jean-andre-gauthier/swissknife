@@ -462,7 +462,6 @@ public class AATree {
    * <p>Complexity: O(log(n))
    */
   static int aaRank(AANodeInt root, int value) {
-    // if (root == AANodeInt.nil
     int rank = 1;
     AANodeInt n = root;
     while (n != AANodeInt.nil) {
