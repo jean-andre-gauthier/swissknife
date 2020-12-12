@@ -23,6 +23,14 @@ public class IO {
       this.pw = new PrintWriter(bos, true);
     }
 
+    void print(boolean t) {
+      pw.print(t);
+    }
+
+    void print(char t) {
+      pw.print(t);
+    }
+
     void print(int t) {
       pw.print(t);
     }
@@ -43,6 +51,14 @@ public class IO {
       pw.println("");
     }
 
+    void println(boolean t) {
+      pw.println(t);
+    }
+
+    void println(char t) {
+      pw.println(t);
+    }
+
     void println(int t) {
       pw.println(t);
     }
@@ -57,6 +73,14 @@ public class IO {
 
     <T> void println(T t) {
       pw.println(t.toString());
+    }
+
+    void println(boolean[] ts) {
+      println(ts, true);
+    }
+
+    void println(char[] ts) {
+      println(ts, true);
     }
 
     void println(int[] ts) {
@@ -83,44 +107,120 @@ public class IO {
       println(ts, false);
     }
 
-    void println(int[] ts, boolean newline) {
+    void println(boolean[] ts, boolean newline) {
+      println(ts, newline, 0, ts.length-1);
+    }
+
+    void println(boolean[] ts, boolean newline, int imax) {
+      println(ts, newline, 0, imax);
+    }
+
+    void println(boolean[] ts, boolean newline, int imin, int imax) {
       StringBuilder sb = new StringBuilder();
-      for (int t : ts) {
-        sb.append(t);
+      for (int i = imin; i <= imax; ++i) {
+        sb.append(ts[i]);
         sb.append((newline ? "\n" : " "));
       }
       if (sb.length() > 0) {
-        sb.deleteCharAt(sb.length() - 1);
+        sb.deleteCharAt(sb.length()-1);
+      }
+      pw.println(sb.toString());
+    }
+
+    void println(char[] ts, boolean newline) {
+      println(ts, newline, 0, ts.length-1);
+    }
+
+    void println(char[] ts, boolean newline, int imax) {
+      println(ts, newline, 0, imax);
+    }
+
+    void println(char[] ts, boolean newline, int imin, int imax) {
+      StringBuilder sb = new StringBuilder();
+      for (int i = imin; i <= imax; ++i) {
+        sb.append(ts[i]);
+        sb.append((newline ? "\n" : " "));
+      }
+      if (sb.length() > 0) {
+        sb.deleteCharAt(sb.length()-1);
+      }
+      pw.println(sb.toString());
+    }
+
+    void println(int[] ts, boolean newline) {
+      println(ts, newline, 0, ts.length-1);
+    }
+
+    void println(int[] ts, boolean newline, int imax) {
+      println(ts, newline, 0, imax);
+    }
+
+    void println(int[] ts, boolean newline, int imin, int imax) {
+      StringBuilder sb = new StringBuilder();
+      for (int i = imin; i <= imax; ++i) {
+        sb.append(ts[i]);
+        sb.append((newline ? "\n" : " "));
+      }
+      if (sb.length() > 0) {
+        sb.deleteCharAt(sb.length()-1);
       }
       pw.println(sb.toString());
     }
 
     void println(long[] ts, boolean newline) {
+      println(ts, newline, 0, ts.length-1);
+    }
+
+    void println(long[] ts, boolean newline, int imax) {
+      println(ts, newline, 0, imax);
+    }
+
+    void println(long[] ts, boolean newline, int imin, int imax) {
       StringBuilder sb = new StringBuilder();
-      for (long t : ts) {
-        sb.append(t);
+      for (int i = imin; i <= imax; ++i) {
+        sb.append(ts[i]);
         sb.append((newline ? "\n" : " "));
       }
       if (sb.length() > 0) {
-        sb.deleteCharAt(sb.length() - 1);
+        sb.deleteCharAt(sb.length()-1);
       }
       pw.println(sb.toString());
     }
 
     void println(double[] ts, boolean newline) {
+      println(ts, newline, 0, ts.length-1);
+    }
+
+    void println(double[] ts, boolean newline, int imax) {
+      println(ts, newline, 0, imax);
+    }
+
+    void println(double[] ts, boolean newline, int imin, int imax) {
       StringBuilder sb = new StringBuilder();
-      for (double t : ts) {
-        sb.append(t);
+      for (int i = imin; i <= imax; ++i) {
+        sb.append(ts[i]);
         sb.append((newline ? "\n" : " "));
       }
       if (sb.length() > 0) {
-        sb.deleteCharAt(sb.length() - 1);
+        sb.deleteCharAt(sb.length()-1);
       }
       pw.println(sb.toString());
     }
 
     <T> void println(T[] ts, boolean newline) {
       println(Arrays.asList(ts), newline);
+    }
+
+    <T> void println(T[] ts, boolean newline) {
+      println(ts, newline, 0, ts.length-1);
+    }
+
+    <T> void println(T[] ts, boolean newline, int imax) {
+      println(ts, newline, 0, imax);
+    }
+
+    <T> void println(T[] ts, boolean newline, int imin, int imax) {
+      println(Arrays.asList(ts).subList(imin, imax+1), newline);
     }
 
     <T> void println(Collection<T> ts, boolean newline) {
@@ -147,6 +247,38 @@ public class IO {
         sb.deleteCharAt(sb.length() - 1);
       }
       pw.println(sb.toString());
+    }
+
+    void println(boolean[][] tss) {
+      StringBuilder sb = new StringBuilder();
+      for (boolean[] ts : tss) {
+        for (boolean t : ts) {
+          sb.append(t).append(" ");
+        }
+        if (ts.length > 0) {
+          sb.setCharAt(sb.length() - 1, '\n');
+        } else {
+          sb.append('\n');
+        }
+      }
+      pw.print(sb.toString());
+      pw.flush();
+    }
+
+    void println(char[][] tss) {
+      StringBuilder sb = new StringBuilder();
+      for (char[] ts : tss) {
+        for (char t : ts) {
+          sb.append(t).append(" ");
+        }
+        if (ts.length > 0) {
+          sb.setCharAt(sb.length() - 1, '\n');
+        } else {
+          sb.append('\n');
+        }
+      }
+      pw.print(sb.toString());
+      pw.flush();
     }
 
     void println(int[][] tss) {
