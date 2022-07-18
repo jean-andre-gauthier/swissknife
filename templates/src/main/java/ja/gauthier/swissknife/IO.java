@@ -5,6 +5,7 @@ import java.lang.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.*;
+import java.util.stream.*;
 
 /** Helper methods for fast IO operations */
 public class IO {
@@ -205,10 +206,6 @@ public class IO {
         sb.deleteCharAt(sb.length()-1);
       }
       pw.println(sb.toString());
-    }
-
-    <T> void println(T[] ts, boolean newline) {
-      println(Arrays.asList(ts), newline);
     }
 
     <T> void println(T[] ts, boolean newline) {

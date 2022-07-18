@@ -37,7 +37,7 @@ public class PermutationsTest {
 
     @Test
     public void test() {
-      int[] array = range(size);
+      int[] array = rangeInt(size);
       PermutationsInt permutations = new PermutationsInt(array);
       PermutationsInt.Iterator permutationsIterator = permutations.iterator();
       for (int i = 0; i < expectedSize; ++i) {

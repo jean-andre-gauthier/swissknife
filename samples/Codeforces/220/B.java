@@ -3,53 +3,60 @@ import java.lang.Math;
 import java.util.*;
 
 public class B {
+    static int C_MAX=100_000;
     public static void main(String[] args) {
       int n=in.nextInt();
       int m=in.nextInt();
       int[]a=in.nextInts(n);
-      int[][]qs=new int[m][2];
+      int[][]qs=new int[m][3];
       for(int i=0;i<qs.length;++i){
-        qs[i][0]=in.nextInt();
-        qs[i][1]=in.nextInt();
+        qs[i][0]=in.nextInt()-1;
+        qs[i][1]=in.nextInt()-1;
+        qs[i][2]=i;
       }
       Arrays.sort(qs, Comparator.comparingInt((int[] q) -> (int) (q[0] / Math.sqrt(n))).thenComparingInt(q -> q[1]));
-      Map<Integer,Integer>counts=new HashMap<>();
-      add(counts,a,qs[0][0],qs[0][1]);
+      int[]counts=new int[C_MAX+1];
+      int c=add(counts,0,a,qs[0][0],qs[0][1]);
       int[]res=new int[m];
+      res[qs[0][2]]=c;
       for(int i=1;i<m;++i){
-        add(counts,a,qs[i][0],qs[i-1][0]-1);
-        remove(counts,a,qs[i-1][0],qs[i][0]-1);
-        add(counts,a,qs[i-1][1]+1,qs[i][1]);
-        remove(counts,a,qs[i][1]+1,qs[i-1][1]);
+        c=add(counts,c,a,qs[i][0],qs[i-1][0]-1);
+        c=remove(counts,c,a,qs[i-1][0],qs[i][0]-1);
+        c=add(counts,c,a,qs[i-1][1]+1,qs[i][1]);
+        c=remove(counts,c,a,qs[i][1]+1,qs[i-1][1]);
+        res[qs[i][2]]=c;
       }
+      out.println(res);
     }
 
-    static void add(Map<Integer,Integer> counts,int[]a,int from,int to){
-      for(int i=from;i<=to;++i){
-        counts.put(a[i],counts.getOrDefault(a[i],0)+1);
-      }
-    }
-
-    static void remove(Map<Integer,Integer> counts,int[]a,int from,int to){
-      for(int i=from;i<=to;++i){
-        int key=a[i];
-        int val=counts.get(key);
-        if(val==1){
-          counts.remove(key);
-        }else{
-          counts.put(key,val-1);
+    static int add(int[]counts,int c,int[]a,int from,int to){
+      for(int i=from;i<=to&&i<a.length;++i){
+        if(a[i]<=C_MAX){
+          if(counts[a[i]]==a[i]){
+            --c;
+          }
+          counts[a[i]]++;
+          if(counts[a[i]]==a[i]){
+            ++c;
+          }
         }
       }
+      return c;
     }
 
-    static int count(Map<Integer,Integer> counts){
-      int res=0;
-      for(Map.Entry<Integer,Integer>e:counts.entrySet()){
-        if(e.getKey().equals(e.getValue())){
-          res++;
+    static int remove(int[]counts,int c,int[]a,int from,int to){
+      for(int i=from;i<=to&&i<a.length;++i){
+        if(a[i]<=C_MAX){
+          if(counts[a[i]]==a[i]){
+            --c;
+          }
+          counts[a[i]]--;
+          if(counts[a[i]]==a[i]){
+            ++c;
+          }
         }
       }
-      return res;
+      return c;
     }
 
     static MyScanner in = new MyScanner();

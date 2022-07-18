@@ -179,7 +179,7 @@ public class AlgorithmsTest {
 
     @Test
     public void rangeTestWithFrom() {
-      int[] range = range(from, to);
+      int[] range = rangeInt(from, to);
       assertThat(range.length, is(to - from));
       for (int i = 0; i < range.length; ++i) {
         assertThat(range[i], is(i + from));
@@ -188,7 +188,7 @@ public class AlgorithmsTest {
 
     @Test
     public void rangeTestWithoutFrom() {
-      int[] range = range(to);
+      int[] range = rangeInt(to);
       assertThat(range.length, is(to));
       for (int i = 0; i < range.length; ++i) {
         assertThat(range[i], is(i));
@@ -208,7 +208,7 @@ public class AlgorithmsTest {
 
     @Test
     public void reverseTest() {
-      int[] input = range(size);
+      int[] input = rangeInt(size);
       reverse(input);
       for (int i = 0; i < input.length; ++i) {
         assertThat(input[input.length - i - 1], is(i));
@@ -237,7 +237,7 @@ public class AlgorithmsTest {
 
     @Test
     public void rotateTest() {
-      int[] input = range(size);
+      int[] input = rangeInt(size);
       rotate(input, offset);
       for (int i = 0; i < input.length; ++i) {
         assertThat(input[((i + offset) % input.length + input.length) % input.length], is(i));

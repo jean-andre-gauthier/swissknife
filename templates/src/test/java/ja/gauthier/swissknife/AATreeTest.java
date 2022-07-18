@@ -343,7 +343,7 @@ public class AATreeTest {
       {
         AANodeInt node0 = aaMakeLeaf(0);
         parameters[0][0] = node0;
-        parameters[0][1] = range(1);
+        parameters[0][1] = rangeInt(1);
         parameters[0][2] = new int[] {0};
         parameters[0][3] = new int[] {0};
       }
@@ -351,7 +351,7 @@ public class AATreeTest {
         AANodeInt node0 = aaMakeLeaf(0);
         AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 1, 1);
         parameters[1][0] = node1;
-        parameters[1][1] = range(2);
+        parameters[1][1] = rangeInt(2);
         parameters[1][2] = new int[] {0, 1};
         parameters[1][3] = new int[] {1, 0};
       }
@@ -359,7 +359,7 @@ public class AATreeTest {
         AANodeInt node1 = aaMakeLeaf(1);
         AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 1, 0);
         parameters[2][0] = node0;
-        parameters[2][1] = range(2);
+        parameters[2][1] = rangeInt(2);
         parameters[2][2] = new int[] {1, 0};
         parameters[2][3] = new int[] {0, 1};
       }
@@ -368,7 +368,7 @@ public class AATreeTest {
         AANodeInt node2 = aaMakeLeaf(2);
         AANodeInt node1 = aaMakeNode(node0, node2, 0, 1, 1);
         parameters[3][0] = node1;
-        parameters[3][1] = range(3);
+        parameters[3][1] = rangeInt(3);
         parameters[3][2] = new int[] {0, 2, 1};
         parameters[3][3] = new int[] {1, 0, 2};
       }
@@ -377,7 +377,7 @@ public class AATreeTest {
         AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 1, 1);
         AANodeInt node2 = aaMakeNode(node1, AANodeInt.nil, 0, 1, 2);
         parameters[4][0] = node2;
-        parameters[4][1] = range(3);
+        parameters[4][1] = rangeInt(3);
         parameters[4][2] = new int[] {0, 1, 2};
         parameters[4][3] = new int[] {2, 1, 0};
       }
@@ -386,7 +386,7 @@ public class AATreeTest {
         AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 1, 0);
         AANodeInt node2 = aaMakeNode(node0, AANodeInt.nil, 0, 1, 2);
         parameters[5][0] = node2;
-        parameters[5][1] = range(3);
+        parameters[5][1] = rangeInt(3);
         parameters[5][2] = new int[] {1, 0, 2};
         parameters[5][3] = new int[] {2, 0, 1};
       }
@@ -395,7 +395,7 @@ public class AATreeTest {
         AANodeInt node2 = aaMakeNode(node1, AANodeInt.nil, 0, 1, 2);
         AANodeInt node0 = aaMakeNode(AANodeInt.nil, node2, 0, 1, 0);
         parameters[6][0] = node0;
-        parameters[6][1] = range(3);
+        parameters[6][1] = rangeInt(3);
         parameters[6][2] = new int[] {1, 2, 0};
         parameters[6][3] = new int[] {0, 2, 1};
       }
@@ -404,7 +404,7 @@ public class AATreeTest {
         AANodeInt node1 = aaMakeNode(AANodeInt.nil, node2, 0, 1, 1);
         AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 1, 0);
         parameters[7][0] = node0;
-        parameters[7][1] = range(3);
+        parameters[7][1] = rangeInt(3);
         parameters[7][2] = new int[] {2, 1, 0};
         parameters[7][3] = new int[] {0, 1, 2};
       }
@@ -414,7 +414,7 @@ public class AATreeTest {
         AANodeInt node1 = aaMakeNode(node0, AANodeInt.nil, 0, 1, 1);
         AANodeInt node2 = aaMakeNode(node1, node3, 0, 1, 2);
         parameters[8][0] = node2;
-        parameters[8][1] = range(4);
+        parameters[8][1] = rangeInt(4);
         parameters[8][2] = new int[] {0, 1, 3, 2};
         parameters[8][3] = new int[] {2, 1, 0, 3};
       }
@@ -424,7 +424,7 @@ public class AATreeTest {
         AANodeInt node0 = aaMakeNode(AANodeInt.nil, node1, 0, 1, 0);
         AANodeInt node2 = aaMakeNode(node0, node3, 0, 1, 2);
         parameters[9][0] = node2;
-        parameters[9][1] = range(4);
+        parameters[9][1] = rangeInt(4);
         parameters[9][2] = new int[] {1, 0, 3, 2};
         parameters[9][3] = new int[] {2, 0, 1, 3};
       }
@@ -434,7 +434,7 @@ public class AATreeTest {
         AANodeInt node3 = aaMakeNode(node2, AANodeInt.nil, 0, 1, 3);
         AANodeInt node1 = aaMakeNode(node0, node3, 0, 1, 1);
         parameters[10][0] = node1;
-        parameters[10][1] = range(4);
+        parameters[10][1] = rangeInt(4);
         parameters[10][2] = new int[] {0, 2, 3, 1};
         parameters[10][3] = new int[] {1, 0, 3, 2};
       }
@@ -444,7 +444,7 @@ public class AATreeTest {
         AANodeInt node2 = aaMakeNode(AANodeInt.nil, node3, 0, 1, 2);
         AANodeInt node1 = aaMakeNode(node0, node2, 0, 1, 1);
         parameters[11][0] = node1;
-        parameters[11][1] = range(4);
+        parameters[11][1] = rangeInt(4);
         parameters[11][2] = new int[] {0, 3, 2, 1};
         parameters[11][3] = new int[] {1, 0, 2, 3};
       }
@@ -455,7 +455,7 @@ public class AATreeTest {
         AANodeInt node1 = aaMakeNode(node0, node2, 0, 1, 1);
         AANodeInt node3 = aaMakeNode(node1, node4, 0, 1, 3);
         parameters[12][0] = node3;
-        parameters[12][1] = range(5);
+        parameters[12][1] = rangeInt(5);
         parameters[12][2] = new int[] {0, 2, 1, 4, 3};
         parameters[12][3] = new int[] {3, 1, 0, 2, 4};
       }
@@ -466,7 +466,7 @@ public class AATreeTest {
         AANodeInt node4 = aaMakeNode(node3, AANodeInt.nil, 0, 1, 4);
         AANodeInt node2 = aaMakeNode(node1, node4, 0, 1, 2);
         parameters[13][0] = node2;
-        parameters[13][1] = range(5);
+        parameters[13][1] = rangeInt(5);
         parameters[13][2] = new int[] {0, 1, 3, 4, 2};
         parameters[13][3] = new int[] {2, 1, 0, 4, 3};
       }
@@ -477,7 +477,7 @@ public class AATreeTest {
         AANodeInt node3 = aaMakeNode(AANodeInt.nil, node4, 0, 1, 3);
         AANodeInt node2 = aaMakeNode(node1, node3, 0, 1, 2);
         parameters[14][0] = node2;
-        parameters[14][1] = range(5);
+        parameters[14][1] = rangeInt(5);
         parameters[14][2] = new int[] {0, 1, 4, 3, 2};
         parameters[14][3] = new int[] {2, 1, 0, 3, 4};
       }
@@ -488,7 +488,7 @@ public class AATreeTest {
         AANodeInt node3 = aaMakeNode(AANodeInt.nil, node4, 0, 1, 3);
         AANodeInt node2 = aaMakeNode(node0, node3, 0, 1, 2);
         parameters[15][0] = node2;
-        parameters[15][1] = range(5);
+        parameters[15][1] = rangeInt(5);
         parameters[15][2] = new int[] {1, 0, 4, 3, 2};
         parameters[15][3] = new int[] {2, 0, 1, 3, 4};
       }
@@ -499,7 +499,7 @@ public class AATreeTest {
         AANodeInt node3 = aaMakeNode(node2, node4, 0, 1, 3);
         AANodeInt node1 = aaMakeNode(node0, node3, 0, 1, 1);
         parameters[16][0] = node1;
-        parameters[16][1] = range(5);
+        parameters[16][1] = rangeInt(5);
         parameters[16][2] = new int[] {0, 2, 4, 3, 1};
         parameters[16][3] = new int[] {1, 0, 3, 2, 4};
       }
@@ -511,7 +511,7 @@ public class AATreeTest {
         AANodeInt node5 = aaMakeNode(node4, AANodeInt.nil, 0, 1, 5);
         AANodeInt node3 = aaMakeNode(node1, node5, 0, 1, 3);
         parameters[17][0] = node3;
-        parameters[17][1] = range(6);
+        parameters[17][1] = rangeInt(6);
         parameters[17][2] = new int[] {0, 2, 1, 4, 5, 3};
         parameters[17][3] = new int[] {3, 1, 0, 2, 5, 4};
       }
@@ -523,7 +523,7 @@ public class AATreeTest {
         AANodeInt node4 = aaMakeNode(AANodeInt.nil, node5, 0, 1, 4);
         AANodeInt node3 = aaMakeNode(node1, node4, 0, 1, 3);
         parameters[18][0] = node3;
-        parameters[18][1] = range(6);
+        parameters[18][1] = rangeInt(6);
         parameters[18][2] = new int[] {0, 2, 1, 5, 4, 3};
         parameters[18][3] = new int[] {3, 1, 0, 2, 4, 5};
       }
@@ -535,7 +535,7 @@ public class AATreeTest {
         AANodeInt node4 = aaMakeNode(node3, node5, 0, 1, 4);
         AANodeInt node2 = aaMakeNode(node1, node4, 0, 1, 2);
         parameters[19][0] = node2;
-        parameters[19][1] = range(6);
+        parameters[19][1] = rangeInt(6);
         parameters[19][2] = new int[] {0, 1, 3, 5, 4, 2};
         parameters[19][3] = new int[] {2, 1, 0, 4, 3, 5};
       }
@@ -547,7 +547,7 @@ public class AATreeTest {
         AANodeInt node4 = aaMakeNode(node3, node5, 0, 1, 4);
         AANodeInt node2 = aaMakeNode(node0, node4, 0, 1, 2);
         parameters[20][0] = node2;
-        parameters[20][1] = range(6);
+        parameters[20][1] = rangeInt(6);
         parameters[20][2] = new int[] {1, 0, 3, 5, 4, 2};
         parameters[20][3] = new int[] {2, 0, 1, 4, 3, 5};
       }
@@ -560,7 +560,7 @@ public class AATreeTest {
         AANodeInt node5 = aaMakeNode(node4, node6, 0, 1, 5);
         AANodeInt node3 = aaMakeNode(node1, node5, 0, 1, 3);
         parameters[21][0] = node3;
-        parameters[21][1] = range(7);
+        parameters[21][1] = rangeInt(7);
         parameters[21][2] = new int[] {0, 2, 1, 4, 6, 5, 3};
         parameters[21][3] = new int[] {3, 1, 0, 2, 5, 4, 6};
       }
@@ -599,7 +599,7 @@ public class AATreeTest {
   public static class InsertPermutationsTest {
     @Parameters
     public static Collection<Object[]> parameters() {
-      PermutationsInt permutationsIterable = new PermutationsInt(range(7));
+      PermutationsInt permutationsIterable = new PermutationsInt(rangeInt(7));
       PermutationsInt.Iterator permutationsIterator = permutationsIterable.iterator();
       List<Object[]> permutations = new ArrayList<>();
       permutationsIterator.forEachRemaining(p -> permutations.add(new int[][] {p}));

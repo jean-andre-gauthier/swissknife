@@ -49,6 +49,18 @@ public class Algorithms {
     return true;
   }
 
+  static boolean isEqual(long[] a, long[] b) {
+    if (a.length != b.length) {
+      return false;
+    }
+    for (int i = 0; i < a.length; ++i) {
+      if (a[i] != b[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   /**
    * Checks whether an array is a permutation of another
    *
@@ -59,6 +71,14 @@ public class Algorithms {
   static boolean isPermutation(int[] a, int[] b) {
     int[] aCopy = Arrays.copyOf(a, a.length);
     int[] bCopy = Arrays.copyOf(b, b.length);
+    Arrays.sort(aCopy);
+    Arrays.sort(bCopy);
+    return isEqual(aCopy, bCopy);
+  }
+
+  static boolean isPermutation(long[] a, long[] b) {
+    long[] aCopy = Arrays.copyOf(a, a.length);
+    long[] bCopy = Arrays.copyOf(b, b.length);
     Arrays.sort(aCopy);
     Arrays.sort(bCopy);
     return isEqual(aCopy, bCopy);
@@ -84,8 +104,19 @@ public class Algorithms {
     return merged;
   }
 
-  static int[] range(int toExclusive) {
-    return range(0, toExclusive);
+  static long[] merge(long[] t1, long[] t2) {
+    long[] merged = new long[t1.length + t2.length];
+    int it1 = 0, it2 = 0, imerged = 0;
+
+    while (imerged < merged.length) {
+      if (it2 == t2.length || (it1 < t1.length && t1[it1] <= t2[it2])) {
+        merged[imerged++] = t1[it1++];
+      } else {
+        merged[imerged++] = t2[it2++];
+      }
+    }
+
+    return merged;
   }
 
   /**
@@ -93,9 +124,26 @@ public class Algorithms {
    *
    * <p>Complexity: O(toExclusive - fromInclusive)
    */
-  static int[] range(int fromInclusive, int toExclusive) {
+  static int[] rangeInt(int toExclusive) {
+    return rangeInt(0, toExclusive);
+  }
+
+  static int[] rangeInt(int fromInclusive, int toExclusive) {
     int nItems = toExclusive - fromInclusive;
     int[] range = new int[nItems];
+    for (int i = 0; i < nItems; ++i) {
+      range[i] = i + fromInclusive;
+    }
+    return range;
+  }
+
+  static long[] rangeLong(int toExclusive) {
+    return rangeLong(0, toExclusive);
+  }
+
+  static long[] rangeLong(int fromInclusive, int toExclusive) {
+    int nItems = toExclusive - fromInclusive;
+    long[] range = new long[nItems];
     for (int i = 0; i < nItems; ++i) {
       range[i] = i + fromInclusive;
     }
@@ -118,6 +166,17 @@ public class Algorithms {
     }
   }
 
+  static void reverse(long[] elements) {
+    reverse(elements, 0, elements.length);
+  }
+
+  static void reverse(long[] elements, int fromInclusive, int toExclusive) {
+    int nElements = toExclusive - fromInclusive;
+    for (int i = fromInclusive; i < fromInclusive + nElements / 2; ++i) {
+      swap(elements, i, toExclusive - i + fromInclusive - 1);
+    }
+  }
+
   /**
    * Rotates elements in-place, by offset positions.
    *
@@ -132,6 +191,13 @@ public class Algorithms {
     reverse(elements, positiveOffset, elements.length);
   }
 
+  static void rotate(long[] elements, int offset) {
+    int positiveOffset = offset >= 0 ? offset : elements.length + offset;
+    reverse(elements);
+    reverse(elements, 0, positiveOffset);
+    reverse(elements, positiveOffset, elements.length);
+  }
+
   /**
    * Swaps elements[i] and elements[j]
    *
@@ -139,6 +205,12 @@ public class Algorithms {
    */
   static void swap(int[] elements, int i, int j) {
     int temp = elements[i];
+    elements[i] = elements[j];
+    elements[j] = temp;
+  }
+
+  static void swap(long[] elements, int i, int j) {
+    long temp = elements[i];
     elements[i] = elements[j];
     elements[j] = temp;
   }
